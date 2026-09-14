@@ -1,7 +1,11 @@
+export type UserRole = 'customer' | 'farmer' | 'admin' | 'super_admin';
+
 export type User = {
     id: number;
     name: string;
     email: string;
+    phone: string | null;
+    role: UserRole;
     avatar?: string;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;

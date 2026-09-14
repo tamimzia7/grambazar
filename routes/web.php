@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Account\DashboardController;
+use App\Http\Controllers\Account\OrderController as AccountOrderController;
+use App\Http\Controllers\Account\PasswordController;
+use App\Http\Controllers\Account\ProfileController as AccountProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
@@ -27,6 +31,14 @@ Route::get('/orders/{order:order_number}', [OrderController::class, 'show'])->na
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+
+    Route::prefix('account')->name('account.')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile', [AccountProfileController::class, 'edit'])->name('profile');
+        Route::get('/password', [PasswordController::class, 'edit'])->name('password');
+        Route::get('/orders', [AccountOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order:order_number}', [AccountOrderController::class, 'show'])->name('orders.show');
+    });
 });
 
 require __DIR__.'/settings.php';

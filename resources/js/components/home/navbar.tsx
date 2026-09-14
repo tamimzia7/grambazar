@@ -1,11 +1,20 @@
 import { Link, router, usePage } from '@inertiajs/react';
-import { Heart, Leaf, Menu, Search, ShoppingCart, X } from 'lucide-react';
+import {
+    Heart,
+    Leaf,
+    LogOut,
+    Menu,
+    Search,
+    ShoppingCart,
+    X,
+} from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { toBnNumber } from '@/lib/format';
-import { dashboard, login, register } from '@/routes';
+import accountRoutes from '@/routes/account';
+import { dashboard, login, logout, register } from '@/routes';
 import cartRoutes from '@/routes/cart';
 import shopRoutes from '@/routes/shop';
 import type { HomeCategory } from '@/types/home';
@@ -116,11 +125,33 @@ export default function Navbar({
                     </Link>
 
                     {auth.user ? (
-                        <Link href={dashboard()} prefetch>
-                            <Button className="bg-emerald-600 hover:bg-emerald-700">
-                                ড্যাশবোর্ড
-                            </Button>
-                        </Link>
+                        <div className="flex items-center gap-2">
+                            {auth.user.role === 'customer' ? (
+                                <Link
+                                    href={accountRoutes.dashboard.url()}
+                                    prefetch
+                                >
+                                    <Button className="bg-emerald-600 hover:bg-emerald-700">
+                                        আমার অ্যাকাউন্ট
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <Link href={dashboard()} prefetch>
+                                    <Button className="bg-emerald-600 hover:bg-emerald-700">
+                                        ড্যাশবোর্ড
+                                    </Button>
+                                </Link>
+                            )}
+                            <Link
+                                href={logout.url()}
+                                as="button"
+                                method="post"
+                                aria-label="লগআউট"
+                                className="flex size-9 items-center justify-center rounded-md text-stone-600 transition-colors hover:text-rose-600"
+                            >
+                                <LogOut className="size-5" />
+                            </Link>
+                        </div>
                     ) : (
                         <div className="flex items-center gap-2">
                             <Link href={login()} prefetch>
@@ -194,15 +225,38 @@ export default function Navbar({
 
                     <div className="mt-4 flex gap-2">
                         {auth.user ? (
-                            <Link
-                                href={dashboard()}
-                                prefetch
-                                className="flex-1"
-                            >
-                                <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-                                    ড্যাশবোর্ড
-                                </Button>
-                            </Link>
+                            <>
+                                {auth.user.role === 'customer' ? (
+                                    <Link
+                                        href={accountRoutes.dashboard.url()}
+                                        prefetch
+                                        className="flex-1"
+                                    >
+                                        <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
+                                            আমার অ্যাকাউন্ট
+                                        </Button>
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        href={dashboard()}
+                                        prefetch
+                                        className="flex-1"
+                                    >
+                                        <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
+                                            ড্যাশবোর্ড
+                                        </Button>
+                                    </Link>
+                                )}
+                                <Link
+                                    href={logout.url()}
+                                    as="button"
+                                    method="post"
+                                    aria-label="লগআউট"
+                                    className="flex size-10 flex-none items-center justify-center rounded-lg border border-stone-200 text-stone-600 transition-colors hover:border-rose-200 hover:text-rose-600"
+                                >
+                                    <LogOut className="size-5" />
+                                </Link>
+                            </>
                         ) : (
                             <>
                                 <Link

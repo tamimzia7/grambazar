@@ -19,7 +19,41 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
+    $response->assertRedirect('/account');
+});
+
+test('users can authenticate using their phone number', function () {
+    $user = User::factory()->create(['phone' => '01712345678']);
+
+    $response = $this->post(route('login.store'), [
+        'email' => '01712345678',
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticatedAs($user);
+    $response->assertRedirect('/account');
+});
+
+test('users can not authenticate with an unknown identifier', function () {
+    $response = $this->post(route('login.store'), [
+        'email' => 'unknown@example.com',
+        'password' => 'password',
+    ]);
+
+    $this->assertGuest();
+    $response->assertSessionHasErrors('email');
+});
+
+test('non customers are redirected to the dashboard after login', function () {
+    $user = User::factory()->asAdmin()->create();
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
     $response->assertRedirect(route('dashboard', absolute: false));
+    $this->assertAuthenticatedAs($user);
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {
