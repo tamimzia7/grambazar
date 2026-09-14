@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="দেশি মসলার সংগ্রহ: হলুদ, জিরা, মরিচ ও ধনিয়া">
+  <defs>
+    <linearGradient id="spicebg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffedd5"/>
+      <stop offset="1" stop-color="#fed7aa"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#spicebg)"/>
+
+  <!-- bowls -->
+  <g transform="translate(120 90)">
+    <path d="M130 60 q-70 -70 -200 -20 l-15 120 q90 50 230 5 Z" fill="#78716c"/>
+    <path d="M135 70 q-60 -55 -175 -10 l-12 95 q70 40 199 5 Z" fill="#a8a29e"/>
+    <ellipse cx="70" cy="52" rx="110" ry="30" fill="#f59e0b"/>
+    <path d="M-30 52 q100 -70 200 -15" stroke="#d97706" stroke-width="24" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(500 40)">
+    <path d="M130 60 q-70 -70 -200 -20 l-15 120 q90 50 230 5 Z" fill="#78716c"/>
+    <path d="M135 70 q-60 -55 -175 -10 l-12 95 q70 40 199 5 Z" fill="#a8a29e"/>
+    <ellipse cx="70" cy="52" rx="110" ry="30" fill="#ef4444"/>
+    <circle cx="30" cy="54" r="9" fill="#b91c1c"/>
+    <circle cx="90" cy="60" r="9" fill="#dc2626"/>
+    <circle cx="120" cy="46" r="8" fill="#ef4444"/>
+  </g>
+
+  <g transform="translate(880 120)">
+    <path d="M130 60 q-70 -70 -200 -20 l-15 120 q90 50 230 5 Z" fill="#57534e"/>
+    <path d="M135 70 q-60 -55 -175 -10 l-12 95 q70 40 199 5 Z" fill="#78716c"/>
+    <ellipse cx="70" cy="52" rx="110" ry="30" fill="#d6d3d1"/>
+    <circle cx="30" cy="50" r="6" fill="#a8a29e"/>
+    <circle cx="60" cy="58" r="6" fill="#a8a29e"/>
+    <circle cx="95" cy="48" r="6" fill="#a8a29e"/>
+    <circle cx="115" cy="60" r="6" fill="#a8a29e"/>
+  </g>
+
+  <!-- scattered chilis + leaves -->
+  <g>
+    <path d="M420 500 q0 -45 30 -45 q30 0 30 45 q0 40 -30 65 q-30 -25 -30 -65 Z" fill="#dc2626"/>
+    <path d="M430 445 q20 -30 50 -20" stroke="#166534" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M1040 470 q0 -45 30 -45 q30 0 30 45 q0 40 -30 65 q-30 -25 -30 -65 Z" fill="#b91c1c"/>
+    <path d="M720 420 q40 -45 90 -20 q-15 45 -60 55 q-30 -10 -30 -35 Z" fill="#15803d"/>
+    <path d="M760 380 q30 -35 70 -15" stroke="#166534" stroke-width="7" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- seed grains -->
+  <g fill="#c9732f" opacity="0.85">
+    <ellipse cx="180" cy="490" rx="8" ry="5"/>
+    <ellipse cx="210" cy="505" rx="8" ry="5"/>
+    <ellipse cx="240" cy="492" rx="8" ry="5"/>
+    <ellipse cx="620" cy="520" rx="8" ry="5"/>
+    <ellipse cx="650" cy="506" rx="8" ry="5"/>
+    <ellipse cx="560" cy="515" rx="8" ry="5"/>
+  </g>
+</svg>

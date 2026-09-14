@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="গ্রামবাজার পণ্য">
+  <rect width="600" height="600" fill="#f0fdf4"/>
+  <circle cx="300" cy="290" r="250" fill="#dcfce7"/>
+
+  <!-- basket -->
+  <g transform="translate(150 380)">
+    <path d="M20 120 q60 -45 140 -10 l-10 70 q-55 20 -120 -8 Z" fill="#d97706"/>
+    <ellipse cx="160" cy="108" rx="78" ry="26" fill="#fef3c7"/>
+    <circle cx="130" cy="90" r="30" fill="#16a34a"/>
+    <circle cx="185" cy="84" r="26" fill="#ef4444"/>
+    <circle cx="158" cy="66" r="22" fill="#f59e0b"/>
+    <path d="M130 60 q40 -36 84 -14" stroke="#15803d" stroke-width="8" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- leaves -->
+  <g fill="#16a34a">
+    <path d="M300 60 q45 -40 90 -6 q-45 40 -90 6 Z"/>
+    <path d="M120 180 q45 -40 90 -6 q-45 40 -90 6 Z" opacity="0.8"/>
+    <path d="M480 180 q45 -40 90 -6 q-45 40 -90 6 Z" opacity="0.8"/>
+  </g>
+</svg>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Category;
+use App\Services\Cart\Cart;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -42,6 +44,19 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'cartCount' => app(Cart::class)->count(),
+            'categories' => Category::query()
+                ->active()
+                ->whereNull('parent_id')
+                ->orderBy('sort_order')
+                ->limit(6)
+                ->get(['name', 'slug'])
+                ->map(fn (Category $category): array => [
+                    'name' => $category->name,
+                    'slug' => $category->slug,
+                ])
+                ->all(),
+            'flash' => $request->session()->get('flash'),
         ];
     }
 }

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="দেশি মুরগি">
+  <rect width="600" height="600" fill="#fff7ed" rx="40"/>
+  <circle cx="300" cy="320" r="230" fill="#fef3c7"/>
+  <!-- chicken body -->
+  <ellipse cx="320" cy="360" rx="120" ry="85" fill="#d97706"/>
+  <ellipse cx="330" cy="370" rx="95" ry="65" fill="#f59e0b"/>
+  <!-- neck + head -->
+  <path d="M240 340 q-20 -130 55 -160" stroke="#c9732f" stroke-width="46" fill="none" stroke-linecap="round"/>
+  <circle cx="318" cy="160" r="44" fill="#c9732f"/>
+  <!-- comb + beak -->
+  <path d="M292 122 q20 -35 45 -12 q-15 20 -40 14" fill="#dc2626"/>
+  <polygon points="360,158 400,165 360,180" fill="#fbbf24"/>
+  <!-- eye -->
+  <circle cx="330" cy="150" r="6" fill="#1e293b"/>
+  <!-- tail -->
+  <path d="M440 330 q70 -40 80 -110 q30 60 -10 120 q30 10 10 40 Z" fill="#92400e"/>
+  <!-- legs -->
+  <path d="M300 440 l10 60 M340 440 l-4 60" stroke="#f59e0b" stroke-width="14" stroke-linecap="round"/>
+</svg>

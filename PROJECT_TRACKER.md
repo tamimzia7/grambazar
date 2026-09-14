@@ -1,10 +1,12 @@
 # GramBazar Project Tracker
 
 ## Project Status
-Phase: 02 — Database & Backend
+
+Phase: 04 — Customer Shopping
 Status: Completed
 
 ## Phase 01 — Foundation
+
 - [x] Project structure inspected
 - [x] Framework/version verified
 - [x] Dependencies verified
@@ -15,6 +17,7 @@ Status: Completed
 - [x] Basic project health check completed
 
 ## Phase 02 — Database & Backend
+
 - [x] Categories
 - [x] Products
 - [x] Farmers
@@ -29,6 +32,7 @@ Status: Completed
 > **Phase 02 Notes (completed):**
 >
 > **Schema (additive migrations, applied to dev MySQL):**
+>
 > - `users.role` string default `customer`, cast to `UserRole` enum (Customer/Farmer/Admin/SuperAdmin).
 > - `farmers` — one-to-one with users (`user_id` unique, cascade delete); `approval_status` default `pending` (Pending/Approved/Rejected/Suspended).
 > - `categories` — self-referencing `parent_id` (nullOnDelete), unique `slug`, `is_active`, `sort_order`.
@@ -48,28 +52,57 @@ Status: Completed
 > **Not built (future phases):** Orders, Cart, Coupons — relationships/design accounted for in schema, implementation deferred.
 
 ## Phase 03 — Homepage
-- [ ] Navbar
-- [ ] Hero section
-- [ ] Categories
-- [ ] Popular products
-- [ ] Farmer section
-- [ ] Seasonal products
-- [ ] Spice section
-- [ ] Village story/video
-- [ ] Farmer story
-- [ ] Footer
-- [ ] Responsive design
+
+- [x] Navbar
+- [x] Hero section
+- [x] Categories
+- [x] Popular products
+- [x] Farmer section
+- [x] Seasonal products
+- [x] Spice section
+- [x] Village story/video
+- [x] Farmer story
+- [x] Footer
+- [x] Responsive design
+
+**Phase 03 Notes:**
+
+- Homepage rebuilt on Inertia + React (no Blade). `GET /` now renders `welcome` via invokable `App\Http\Controllers\HomeController` (was `Route::inertia`).
+- Sections (exact order): sticky navbar (mobile drawer, search stub, wishlist/cart stubs), hero (SVG scene + floating featured-product card + Bengali-digit stats), category grid (7 db-driven), popular products (4), farmer-direct CTA, seasonal (3), spice (4), village story with video placeholder, farmer story + become-a-farmer CTA, dark-green footer (newsletter stub, contact, socials).
+- Database-driven: categories, popular/seasonal/spice product rails all read live from DB via `HomeController`. Seeder extended idempotently to 12 demo products (4 popular, 3 seasonal, 4 moshola, 2 featured).
+- Assets: 13 hand-made local SVG illustrations under `public/images/home/` (hero, farmer-direct, village, farmer-story, spice, product-fallback, cat-{slug}); product cards fall back to their category art. No external image hotlinks.
+- Bengali-first: all visible copy Bengali; prices/units/stats/phone shown in Bengali digits via `lib/format.ts`. `--font-sans` extended with `Noto Sans Bengali`, `Hind Siliguri`, `Mukta`, `SolaimanLipi`, `SutonnyMJ`.
+- Interactions (lightweight, UI-only until later phases): search, category links, add-to-cart, wishlist, "see all", video play, newsletter, socials → sonner toast placeholders. No fragile fake cart/shopping logic.
+- Accessibility: skip link, aria labels on icon buttons/navs, focus-visible rings, semantic landmarks, `scroll-mt` for anchor sections, lazy-loading images.
+- Checks: `vendor/bin/pest` 70 passed / 239 assertions (incl. new `HomepageTest` + updated `DatabaseSeederTest`), `phpstan analyse` 0 errors, `pint --dirty` clean, `npm run types:check` + `vp check` clean, `npm run build` succeeds.
+- Remaining (deferred): real product photos, actual video, live search/shop/cart, category pages, farmer onboarding flow, newsletter backend.
 
 ## Phase 04 — Customer Shopping
-- [ ] Shop
-- [ ] Product details
-- [ ] Search
-- [ ] Filters
-- [ ] Cart
-- [ ] Checkout
-- [ ] Order confirmation
+
+- [x] Shop
+- [x] Product details
+- [x] Search
+- [x] Filters
+- [x] Cart
+- [x] Checkout
+- [x] Order confirmation
+
+**Phase 04 Notes:**
+
+- Public routes added in `routes/web.php`: `/shop`, `/category/{category:slug}`, `/products/{product:slug}`, `/cart` (+ POST `/cart/add`, `/cart/update`, `/cart/remove`), `/checkout` (+ POST), `/orders/{order:order_number}`. `HomeController` unchanged except `productPayload()` now also sends `description` + `min_order_quantity` so one `ProductCard` works on every page.
+- Shop page: active (visible + purchasable) products only; category filter includes descendant categories; search (`q`) uses `LIKE` on name with escaped `%`/`_` (`addcslashes`); sort options (popular default via `COALESCE(orders_count,0)` + `popularity` column, price asc/desc, newest, name); paginated (12/page, `config('shop.products_per_page')`); filter/search changes navigate with `preserveState`/`preserveScroll`/`replace`.
+- Cart is session-backed (`shopping_cart` key, product id → int quantity) in `app/Services/Cart/Cart.php`. Prices are always recomputed server-side; products that no longer exist are dropped, while inactive or out-of-stock lines are returned so the UI can flag them as "unavailable" (banner + remove). Minimum order quantity enforced on add/update; stock checked on every read.
+- Checkout (guest, `user_id` nullable) via `OrderPlacer` inside `DB::transaction` with `lockForUpdate` on stock lines; decrements stock with a guarded `decrement()` (never below zero); snapshots `product_name`, `unit`, `unit_price`, quantity into `order_items`; order number format `GB-{ymd}-{6 random uppercase}`; delivery charge 60 BDT flat (`config('shop.delivery_charge')`), free ≥ 1000 BDT (`config('shop.free_delivery_above')`); COD only (`PaymentMethod`). Empty cart → redirect to cart; unavailable/insufficient stock → `errors.cart` with Bengali messages and full rollback.
+- Orders: `OrderStatus` (Pending → Confirmed → Processing → Shipped → Delivered, + Cancelled), `PaymentStatus` (Unpaid/Paid/Refunded), `PaymentMethod` (COD); confirmation page shows the snapshot line items, totals, delivery details; related products shown on the product page (same category, active, excluding self).
+- Inertia shared props extended in `HandleInertiaRequests` with `cartCount`, `categories` (6 active roots), and `flash` (`success`/`error`). Session flash messages surface as sonner toasts via `lib/flash.ts` `useAppFlash` in the store layout.
+- Storefront pages use a `Link`-heavy design (`StoreLayout` navbar/footer reused): shop grid + category chips + sort select + pagination, product gallery (thumbnails/prev/next) + quantity stepper + add-to-cart, cart line items with quantity steppers + order summary sidebar, checkout delivery form (`StoreCheckoutRequest` validation, Bengali attribute names), order confirmation.
+- Wayfinder: generated route modules are consumed as default exports (`import cartRoutes from '@/routes/cart'`) and query params go through the `{ query: {...} }` option; generate with `php artisan wayfinder:generate --with-form` (needed for `.form()` variants used by auth/settings).
+- Laravel 13 note: `Blueprint::unsignedDecimal()` does not exist — order/order_items money columns use plain `decimal(10,2)`.
+- Checks: `vendor/bin/pest` 101 passed / 540 assertions (new `ShopTest`, `CartTest`, `CheckoutTest`, `OrderTest`; run with `DB_CONNECTION=mysql DB_DATABASE=grambazar_test DB_USERNAME=root DB_PASSWORD= vendor/bin/pest` since `pdo_sqlite` is unavailable), `phpstan analyse` 0 errors, `pint` clean, `npm run types:check` + `vp check` clean, `npm run build` succeeds. Smoke-tested `/shop`, `/category/{slug}`, `/products/{slug}`, `/cart`, `/checkout` (empty cart → redirect to cart).
+- Deferred to later phases: real product photos, order history + customer account (Phase 05), payment gateway, coupons, farmer order management (Phase 06), admin order management (Phase 07).
 
 ## Phase 05 — Authentication
+
 - [ ] Registration
 - [ ] Login
 - [ ] Logout
@@ -78,6 +111,7 @@ Status: Completed
 - [ ] Order history
 
 ## Phase 06 — Farmer
+
 - [ ] Farmer authentication
 - [ ] Farmer dashboard
 - [ ] Product management
@@ -86,6 +120,7 @@ Status: Completed
 - [ ] Profile
 
 ## Phase 07 — Admin
+
 - [ ] Admin dashboard
 - [ ] User management
 - [ ] Farmer management
@@ -97,6 +132,7 @@ Status: Completed
 - [ ] Site management
 
 ## Phase 08 — Testing & Security
+
 - [ ] Functional testing
 - [ ] Validation
 - [ ] Authorization
@@ -106,6 +142,7 @@ Status: Completed
 - [ ] Performance checks
 
 ## Phase 09 — Deployment
+
 - [ ] Production environment
 - [ ] Database
 - [ ] Storage

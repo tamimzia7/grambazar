@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="শাক-সবজি">
+  <rect width="600" height="600" fill="#f0fdf4" rx="40"/>
+  <circle cx="300" cy="300" r="230" fill="#dcfce7"/>
+  <!-- vegetables -->
+  <circle cx="210" cy="330" r="78" fill="#16a34a"/>
+  <circle cx="360" cy="300" r="70" fill="#ef4444"/>
+  <circle cx="290" cy="250" r="60" fill="#f59e0b"/>
+  <ellipse cx="330" cy="430" rx="70" ry="42" fill="#84cc16"/>
+  <path d="M150 210 q40 -70 110 -40" stroke="#15803d" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M330 190 q40 -70 110 -40" stroke="#166534" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M360 300 q60 -40 110 -10" stroke="#15803d" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>

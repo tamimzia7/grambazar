@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="বীজ">
+  <rect width="600" height="600" fill="#fefce8" rx="40"/>
+  <circle cx="300" cy="300" r="230" fill="#fef9c3"/>
+  <!-- seed packet -->
+  <rect x="200" y="280" width="200" height="150" rx="14" fill="#f59e0b"/>
+  <rect x="200" y="280" width="200" height="44" rx="14" fill="#d97706"/>
+  <path d="M260 300 l40 30 45 -26 55 38" stroke="#fff7ed" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="250" cy="350" r="16" fill="#fef3c7"/>
+  <circle cx="290" cy="366" r="16" fill="#fef3c7"/>
+  <circle cx="330" cy="348" r="16" fill="#fef3c7"/>
+  <circle cx="370" cy="370" r="16" fill="#fef3c7"/>
+  <!-- sprouting plant -->
+  <path d="M300 280 C300 220 270 200 240 190" stroke="#15803d" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M300 250 C300 190 330 170 360 160" stroke="#16a34a" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <!-- soil -->
+  <ellipse cx="300" cy="292" rx="60" ry="16" fill="#92400e"/>
+  <path d="M240 400 q30 30 60 0 q30 30 60 0" stroke="#b45309" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg>

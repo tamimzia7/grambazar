@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" role="img" aria-label="ধানের খেতে কৃষক, হাতে তাজা পণ্যের ঝুড়ি">
+  <defs>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fef3c7"/>
+      <stop offset="1" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="900" fill="url(#sky2)"/>
+  <circle cx="640" cy="160" r="70" fill="#fbbf24"/>
+
+  <!-- paddy rows -->
+  <g stroke="#16a34a" stroke-width="18" stroke-linecap="round" opacity="0.8">
+    <path d="M60 780 q30 -90 -10 -160"/>
+    <path d="M170 820 q30 -90 -10 -160"/>
+    <path d="M300 840 q30 -90 -10 -160"/>
+    <path d="M660 820 q30 -90 -10 -160"/>
+    <path d="M755 850 q30 -90 -10 -160"/>
+  </g>
+  <path d="M0 800 Q400 730 800 800 L800 900 L0 900 Z" fill="#15803d"/>
+
+  <!-- farmer -->
+  <g>
+    <!-- legs -->
+    <rect x="360" y="620" width="34" height="120" rx="16" fill="#1e3a8a"/>
+    <rect x="420" y="620" width="34" height="120" rx="16" fill="#1e3a8a"/>
+    <!-- body -->
+    <path d="M330 540 q70 -70 155 0 l-15 140 q-60 30 -125 0 Z" fill="#166534"/>
+    <!-- arm -->
+    <path d="M405 560 q70 10 100 55" stroke="#c9732f" stroke-width="26" fill="none" stroke-linecap="round"/>
+    <!-- head -->
+    <circle cx="408" cy="470" r="46" fill="#c9732f"/>
+    <!-- turban -->
+    <path d="M358 452 q50 -58 102 0 q-50 18 -102 0 Z" fill="#fbbf24"/>
+    <!-- face -->
+    <circle cx="430" cy="466" r="4" fill="#7c2d12"/>
+    <path d="M392 486 q20 12 40 0" stroke="#7c2d12" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- basket in hand -->
+    <g transform="translate(505 560)">
+      <path d="M0 60 q50 -40 110 -10 L100 90 q-45 25 -90 -5 Z" fill="#d97706"/>
+      <ellipse cx="62" cy="48" rx="55" ry="20" fill="#fef3c7"/>
+      <circle cx="40" cy="34" r="16" fill="#16a34a"/>
+      <circle cx="82" cy="30" r="14" fill="#ef4444"/>
+      <circle cx="60" cy="20" r="12" fill="#f59e0b"/>
+    </g>
+  </g>
+
+  <!-- quality check badge -->
+  <g transform="translate(140 300)">
+    <circle cx="45" cy="45" r="44" fill="#ffffff" opacity="0.95"/>
+    <path d="M20 45 l18 18 l34 -38" stroke="#16a34a" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

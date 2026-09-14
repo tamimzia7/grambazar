@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="ফল">
+  <rect width="600" height="600" fill="#fff7ed" rx="40"/>
+  <circle cx="300" cy="300" r="230" fill="#fef3c7"/>
+  <!-- mango -->
+  <ellipse cx="200" cy="300" rx="85" ry="70" fill="#f59e0b" transform="rotate(-20 200 300)"/>
+  <path d="M278 268 q30 -60 90 -40" stroke="#16a34a" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <!-- banana -->
+  <path d="M420 400 q80 -10 60 -100" stroke="#facc15" stroke-width="52" fill="none" stroke-linecap="round"/>
+  <path d="M410 400 q85 -8 66 -106" stroke="#fde047" stroke-width="30" fill="none" stroke-linecap="round"/>
+  <!-- apple -->
+  <circle cx="360" cy="240" r="55" fill="#ef4444"/>
+  <path d="M360 190 q20 -30 45 -22 q-10 28 -42 26" fill="#dc2626"/>
+  <path d="M358 190 q-35 -25 -40 -50" stroke="#166534" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- grapes -->
+  <circle cx="210" cy="420" r="16" fill="#a78bfa"/>
+  <circle cx="240" cy="430" r="16" fill="#8b5cf6"/>
+  <circle cx="220" cy="452" r="16" fill="#a78bfa"/>
+  <circle cx="250" cy="452" r="16" fill="#8b5cf6"/>
+</svg>

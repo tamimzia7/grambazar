@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="চাল">
+  <rect width="600" height="600" fill="#fefce8" rx="40"/>
+  <circle cx="300" cy="300" r="230" fill="#fef9c3"/>
+  <!-- rice grains -->
+  <g fill="#fde68a">
+    <ellipse cx="210" cy="330" rx="26" ry="12" transform="rotate(-15 210 330)"/>
+    <ellipse cx="290" cy="300" rx="26" ry="12" transform="rotate(10 290 300)"/>
+    <ellipse cx="370" cy="340" rx="26" ry="12" transform="rotate(-25 370 340)"/>
+    <ellipse cx="330" cy="400" rx="26" ry="12" transform="rotate(20 330 400)"/>
+    <ellipse cx="240" cy="400" rx="26" ry="12" transform="rotate(-8 240 400)"/>
+    <ellipse cx="160" cy="390" rx="26" ry="12" transform="rotate(25 160 390)"/>
+    <ellipse cx="410" cy="280" rx="26" ry="12" transform="rotate(-10 410 280)"/>
+  </g>
+  <!-- bowl -->
+  <path d="M150 330 q150 -140 300 0 l-20 90 q-130 110 -260 0 Z" fill="#d97706"/>
+  <path d="M155 340 q145 -125 290 0 l-14 70 q-130 95 -262 0 Z" fill="#f59e0b"/>
+  <ellipse cx="300" cy="330" rx="150" ry="45" fill="#fef08a"/>
+  <!-- steam -->
+  <path d="M240 250 q20 -30 36 -10 q20 28 44 0" stroke="#d97706" stroke-width="10" fill="none" stroke-linecap="round"/>
+</svg>

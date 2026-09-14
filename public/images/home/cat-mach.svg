@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="মাছ">
+  <rect width="600" height="600" fill="#f0f9ff" rx="40"/>
+  <circle cx="300" cy="300" r="230" fill="#e0f2fe"/>
+  <!-- fish -->
+  <ellipse cx="300" cy="300" rx="150" ry="62" fill="#38bdf8"/>
+  <polygon points="450,300 540,240 540,360" fill="#0ea5e9"/>
+  <circle cx="185" cy="300" r="9" fill="#0c4a6e"/>
+  <path d="M450 270 q40 -30 80 -8" stroke="#0284c7" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M450 330 q40 30 80 8" stroke="#0284c7" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- scales -->
+  <g stroke="#0ea5e9" stroke-width="5" fill="none">
+    <path d="M210 300 q30 -30 60 0 q-30 30 -60 0"/>
+    <path d="M270 300 q30 -30 60 0 q-30 30 -60 0"/>
+    <path d="M330 300 q30 -30 60 0 q-30 30 -60 0"/>
+  </g>
+  <!-- water -->
+  <path d="M80 440 q60 -30 120 0 q60 30 120 0 q60 -30 120 0 q40 20 80 6" stroke="#7dd3fc" stroke-width="12" fill="none" stroke-linecap="round"/>
+</svg>

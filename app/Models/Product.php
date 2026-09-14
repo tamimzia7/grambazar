@@ -89,6 +89,26 @@ class Product extends Model
     }
 
     /**
+     * The price actually charged, preferring a valid discounted price.
+     */
+    public function sellingPrice(): float
+    {
+        $sale = (float) $this->sale_price;
+
+        return $sale > 0 && $sale < (float) $this->price ? $sale : (float) $this->price;
+    }
+
+    public function isDiscounted(): bool
+    {
+        return $this->sellingPrice() !== (float) $this->price;
+    }
+
+    public function enoughStockFor(int $quantity): bool
+    {
+        return (int) $this->stock_quantity >= $quantity;
+    }
+
+    /**
      * @param  Builder<Product>  $query
      * @return Builder<Product>
      */
