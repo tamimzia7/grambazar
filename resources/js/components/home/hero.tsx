@@ -2,15 +2,20 @@ import { ArrowRight, BadgeCheck, Leaf, Star } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { priceLabel, productImage, toBnNumber, unitLabel } from '@/lib/format';
-import type { HomeProduct, HomeStats } from '@/types/home';
+import type { HomeProduct, HomeSiteContent, HomeStats } from '@/types/home';
 
 export default function Hero({
+    site,
     featuredProduct,
     stats,
 }: {
+    site: HomeSiteContent;
     featuredProduct: HomeProduct | null;
     stats: HomeStats;
 }) {
+    const highlightWord = 'গ্রামের';
+    const titleParts = site.hero_title.split(` ${highlightWord} `);
+
     return (
         <section
             aria-label="গ্রামবাজার - পরিচিতি"
@@ -29,24 +34,29 @@ export default function Hero({
                             className="size-4 text-emerald-600"
                             aria-hidden="true"
                         />
-                        জমির থেকে সরাসরি আপনার রান্নাঘরে
+                        {site.hero_eyebrow}
                     </span>
 
                     <h1 className="mt-6 text-4xl leading-tight font-extrabold tracking-tight text-emerald-950 sm:text-5xl lg:text-6xl">
-                        তাজা খাদ্য, সরাসরি{' '}
-                        <span className="relative whitespace-nowrap text-emerald-600">
-                            গ্রামের
-                            <span
-                                aria-hidden="true"
-                                className="absolute bottom-1 left-0 -z-10 h-3 w-full -rotate-1 rounded-sm bg-amber-300"
-                            />
-                        </span>{' '}
-                        হাত থেকে
+                        {titleParts.length === 2 ? (
+                            <>
+                                {titleParts[0]}{' '}
+                                <span className="relative whitespace-nowrap text-emerald-600">
+                                    {highlightWord}
+                                    <span
+                                        aria-hidden="true"
+                                        className="absolute bottom-1 left-0 -z-10 h-3 w-full -rotate-1 rounded-sm bg-amber-300"
+                                    />
+                                </span>{' '}
+                                {titleParts[1]}
+                            </>
+                        ) : (
+                            site.hero_title
+                        )}
                     </h1>
 
                     <p className="mt-6 max-w-xl text-lg leading-relaxed text-stone-600">
-                        গ্রামবাজারে সরাসরি কৃষকদের কাছ থেকে টাটকা সবজি, ফল, মাছ ও মসলা কিনুন
-                        — কোনো মধ্যস্বত্বভোগী ছাড়াই। এক বিক্রেতা, সবচেয়ে সেরা দাম।
+                        {site.hero_subtitle}
                     </p>
 
                     <div className="mt-8 flex flex-wrap items-center gap-3">

@@ -104,6 +104,8 @@ final class ShopPresenter
             'delivery_charge' => (float) $order->delivery_charge,
             'subtotal' => (float) $order->subtotal,
             'total' => (float) $order->total,
+            'coupon_code' => $order->coupon_code,
+            'discount_amount' => (float) $order->discount_amount,
             'payment_method' => $order->payment_method->label(),
             'payment_status' => $order->payment_status->label(),
             'order_status' => $order->order_status->label(),

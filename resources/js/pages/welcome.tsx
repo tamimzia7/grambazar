@@ -25,6 +25,7 @@ export default function Welcome(props: HomeProps) {
 
                 <main id="main" className="flex-1">
                     <Hero
+                        site={props.site}
                         featuredProduct={props.featuredProduct}
                         stats={props.stats}
                     />
@@ -43,7 +44,7 @@ export default function Welcome(props: HomeProps) {
                     <FarmerStory />
                 </main>
 
-                <Footer />
+                <Footer site={props.site} />
             </div>
         </div>
     );

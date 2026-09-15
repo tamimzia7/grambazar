@@ -142,3 +142,28 @@
         @apply bg-background text-foreground;
     }
 }
+
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+
+    .print-hidden {
+        display: none !important;
+    }
+
+    .print-area {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    body {
+        background: #fff !important;
+    }
+}

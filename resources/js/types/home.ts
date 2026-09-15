@@ -31,7 +31,22 @@ export interface HomeStats {
     categories: number;
 }
 
+export interface HomeSiteContent {
+    hero_eyebrow: string;
+    hero_title: string;
+    hero_subtitle: string;
+    brand_about: string;
+    contact_address: string;
+    contact_phone: string;
+    contact_email: string;
+    contact_hours: string;
+    social_facebook: string;
+    social_instagram: string;
+    social_youtube: string;
+}
+
 export interface HomeProps {
+    site: HomeSiteContent;
     categories: HomeCategory[];
     popularProducts: HomeProduct[];
     seasonalProducts: HomeProduct[];

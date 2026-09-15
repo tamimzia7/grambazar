@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Farmer;
 use App\Models\Product;
+use App\Models\SiteSetting;
+use Database\Seeders\SiteSettingSeeder;
 use Illuminate\Database\Eloquent\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,7 +32,33 @@ class HomeController extends Controller
             ->values()
             ->all();
 
+        $defaults = collect(SiteSettingSeeder::defaults())
+            ->mapWithKeys(fn (array $setting): array => [$setting['key'] => $setting['value']])
+            ->all();
+
+        $stored = SiteSetting::resolveMany(array_keys($defaults), $defaults);
+
+        $keys = [
+            'site.hero_eyebrow' => 'hero_eyebrow',
+            'site.hero_title' => 'hero_title',
+            'site.hero_subtitle' => 'hero_subtitle',
+            'site.brand_about' => 'brand_about',
+            'site.contact_address' => 'contact_address',
+            'site.contact_phone' => 'contact_phone',
+            'site.contact_email' => 'contact_email',
+            'site.contact_hours' => 'contact_hours',
+            'site.social_facebook' => 'social_facebook',
+            'site.social_instagram' => 'social_instagram',
+            'site.social_youtube' => 'social_youtube',
+        ];
+
+        $site = [];
+        foreach ($keys as $settingKey => $prop) {
+            $site[$prop] = $stored[$settingKey];
+        }
+
         return Inertia::render('welcome', [
+            'site' => $site,
             'categories' => $categories,
             'popularProducts' => $this->productPayload(
                 Product::query()->with('category')->where('is_popular', true)->active()->get(),

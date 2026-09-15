@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\Contracts\PasskeyUser;
 use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -25,6 +26,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property UserRole $role
+ * @property bool $is_active
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
@@ -32,7 +34,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'phone', 'password', 'role'])]
+#[Fillable(['name', 'email', 'phone', 'password', 'role', 'is_active'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -81,6 +83,65 @@ class User extends Authenticatable implements PasskeyUser
     }
 
     /**
+     * Whether the account is permitted to sign in.
+     */
+    public function canLogin(): bool
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * Whether the user holds a named permission.
+     *
+     * Super admins implicitly hold every permission. Other administrator
+     * roles fall back to the role_permission mapping.
+     */
+    public function hasPermission(string $permission): bool
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (! $this->isAdmin()) {
+            return false;
+        }
+
+        return Permission::query()
+            ->where('name', $permission)
+            ->whereExists(function ($query): void {
+                $query->select(DB::raw(1))
+                    ->from('role_permission')
+                    ->whereColumn('role_permission.permission_id', 'permissions.id')
+                    ->where('role_permission.role', UserRole::Admin->value);
+            })
+            ->exists();
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function permissionNames(): array
+    {
+        if ($this->isSuperAdmin()) {
+            return Permission::pluck('name')->all();
+        }
+
+        if ($this->isAdmin()) {
+            return Permission::query()
+                ->whereExists(function ($query): void {
+                    $query->select(DB::raw(1))
+                        ->from('role_permission')
+                        ->whereColumn('role_permission.permission_id', 'permissions.id')
+                        ->where('role_permission.role', UserRole::Admin->value);
+                })
+                ->pluck('name')
+                ->all();
+        }
+
+        return [];
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -91,6 +152,7 @@ class User extends Authenticatable implements PasskeyUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'role' => UserRole::class,
+            'is_active' => 'boolean',
             'two_factor_confirmed_at' => 'datetime',
         ];
     }

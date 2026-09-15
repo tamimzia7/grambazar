@@ -27,6 +27,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $delivery_charge
  * @property string $subtotal
  * @property string $total
+ * @property string|null $coupon_code
+ * @property string $discount_amount
  * @property PaymentMethod $payment_method
  * @property PaymentStatus $payment_status
  * @property OrderStatus $order_status
@@ -45,6 +47,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'delivery_charge',
     'subtotal',
     'total',
+    'coupon_code',
+    'discount_amount',
     'payment_method',
     'payment_status',
     'order_status',
@@ -86,6 +90,7 @@ class Order extends Model
             'delivery_charge' => 'decimal:2',
             'subtotal' => 'decimal:2',
             'total' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
             'payment_method' => PaymentMethod::class,
             'payment_status' => PaymentStatus::class,
             'order_status' => OrderStatus::class,

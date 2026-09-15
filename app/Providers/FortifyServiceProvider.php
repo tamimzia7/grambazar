@@ -55,7 +55,7 @@ class FortifyServiceProvider extends ServiceProvider
                 ->orWhere('phone', $identifier)
                 ->first();
 
-            if ($user && Hash::check((string) $request->input('password'), $user->password)) {
+            if ($user && $user->canLogin() && Hash::check((string) $request->input('password'), $user->password)) {
                 return $user;
             }
 
@@ -73,7 +73,12 @@ class FortifyServiceProvider extends ServiceProvider
             public function toResponse($request)
             {
                 $user = $request->user();
-                $target = $user && $user->isCustomer() ? '/account' : '/dashboard';
+
+                $target = match (true) {
+                    $user !== null && $user->isAdministrator() => route('admin.dashboard'),
+                    $user !== null && $user->isFarmer() => '/dashboard',
+                    default => '/account',
+                };
 
                 return redirect()->intended($target);
             }

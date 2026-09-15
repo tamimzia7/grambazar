@@ -5,10 +5,14 @@ namespace App\Services\Ordering;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Models\Coupon;
+use App\Models\CouponUsage;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Services\Cart\Cart;
+use App\Services\Coupon\CouponService;
+use App\Services\Coupon\Exceptions\InvalidCouponException;
 use App\Services\Ordering\Exceptions\EmptyCartException;
 use App\Services\Ordering\Exceptions\InsufficientStockException;
 use App\Services\Ordering\Exceptions\UnavailableProductException;
@@ -22,7 +26,10 @@ use Illuminate\Support\Str;
  */
 class OrderPlacer
 {
-    public function __construct(private readonly Cart $cart) {}
+    public function __construct(
+        private readonly Cart $cart,
+        private readonly CouponService $coupons,
+    ) {}
 
     /**
      * @param  array<string, mixed>  $customer
@@ -30,6 +37,7 @@ class OrderPlacer
      * @throws EmptyCartException
      * @throws UnavailableProductException
      * @throws InsufficientStockException
+     * @throws InvalidCouponException
      */
     public function place(array $customer): Order
     {
@@ -72,6 +80,11 @@ class OrderPlacer
 
             $deliveryCharge = $this->deliveryChargeFor($subtotal);
 
+            [$couponCode, $discount, $usage] = $this->applyCoupon(
+                isset($customer['coupon_code']) ? (string) $customer['coupon_code'] : null,
+                $subtotal,
+            );
+
             $order = Order::create([
                 'order_number' => $this->orderNumber(),
                 'user_id' => Auth::id(),
@@ -84,7 +97,9 @@ class OrderPlacer
                 'delivery_instructions' => isset($customer['delivery_instructions']) ? (string) $customer['delivery_instructions'] : null,
                 'delivery_charge' => $deliveryCharge,
                 'subtotal' => $subtotal,
-                'total' => round($subtotal + $deliveryCharge, 2),
+                'total' => round($subtotal + $deliveryCharge - $discount, 2),
+                'coupon_code' => $couponCode,
+                'discount_amount' => $discount,
                 'payment_method' => PaymentMethod::CashOnDelivery,
                 'payment_status' => PaymentStatus::Unpaid,
                 'order_status' => OrderStatus::Pending,
@@ -105,10 +120,53 @@ class OrderPlacer
                 ]);
             }
 
+            if ($usage !== null) {
+                $usage->forceFill(['order_id' => $order->id])->save();
+            }
+
             $this->cart->clear();
 
             return $order;
         });
+    }
+
+    /**
+     * Validate the coupon under a row lock and return the applied code,
+     * discount and a pending usage marker (linked to the order afterwards).
+     * An invalid supplied code is a hard failure — never a silent discount.
+     *
+     * @return array{0: string|null, 1: float, 2: CouponUsage|null}
+     *
+     * @throws InvalidCouponException
+     */
+    private function applyCoupon(?string $code, float $subtotal): array
+    {
+        if ($code === null || trim($code) === '') {
+            return [null, 0.0, null];
+        }
+
+        $uppercased = strtoupper(trim($code));
+
+        /** @var Coupon|null $coupon */
+        $coupon = Coupon::query()->where('code', $uppercased)->lockForUpdate()->first();
+
+        if ($coupon === null) {
+            throw InvalidCouponException::notFound();
+        }
+
+        $this->coupons->validate($coupon, $subtotal);
+
+        $discount = $coupon->discountFor($subtotal);
+
+        $usage = CouponUsage::create([
+            'coupon_id' => $coupon->id,
+            'user_id' => Auth::id(),
+            'discount_amount' => $discount,
+        ]);
+
+        $coupon->increment('used_count');
+
+        return [$uppercased, $discount, $usage];
     }
 
     public function deliveryChargeFor(float $subtotal): float

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCheckoutRequest;
 use App\Services\Cart\Cart;
 use App\Services\Cart\CartItem;
+use App\Services\Coupon\Exceptions\InvalidCouponException;
 use App\Services\Ordering\Exceptions\EmptyCartException;
 use App\Services\Ordering\Exceptions\InsufficientStockException;
 use App\Services\Ordering\Exceptions\UnavailableProductException;
@@ -63,6 +64,9 @@ class CheckoutController extends Controller
         } catch (UnavailableProductException|InsufficientStockException $exception) {
             return back()
                 ->withErrors(['cart' => $exception->getMessage()]);
+        } catch (InvalidCouponException $exception) {
+            return back()
+                ->withErrors(['coupon' => $exception->getMessage()]);
         }
 
         return redirect()->route('orders.show', ['order' => $order->order_number])

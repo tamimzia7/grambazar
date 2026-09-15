@@ -19,6 +19,7 @@ class StoreCheckoutRequest extends FormRequest
             'delivery_area' => ['nullable', 'string', 'max:100'],
             'delivery_district' => ['required', 'string', 'max:100'],
             'delivery_instructions' => ['nullable', 'string', 'max:500'],
+            'coupon_code' => ['nullable', 'string', 'max:50'],
         ];
     }
 

@@ -13,10 +13,28 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
+import type { HomeSiteContent } from '@/types/home';
 
 const BRAND = 'গ্রামবাজার';
 
-export default function Footer() {
+const DEFAULT_SITE: HomeSiteContent = {
+    hero_eyebrow: 'জমির থেকে সরাসরি আপনার রান্নাঘরে',
+    hero_title: 'তাজা খাদ্য, সরাসরি গ্রামের হাত থেকে',
+    hero_subtitle:
+        'গ্রামবাজারে সরাসরি কৃষকদের কাছ থেকে টাটকা সবজি, ফল, মাছ ও মসলা কিনুন — কোনো মধ্যস্বত্বভোগী ছাড়াই। এক বিক্রেতা, সবচেয়ে সেরা দাম।',
+    brand_about:
+        'সরাসরি কৃষক থেকে শহরের রান্নাঘরে — টাটকা সবজি, ফল, মাছ ও মসলা, কোনো মধ্যস্বত্বভোগী ছাড়াই।',
+    contact_address: 'সিংগাইর, মানিকগঞ্জ',
+    contact_phone: '০১৭০০-০০০০০০',
+    contact_email: 'support@grambazar.test',
+    contact_hours: 'সকাল ৬টা - রাত ১০টা',
+    social_facebook: 'https://facebook.com/grambazar',
+    social_instagram: 'https://instagram.com/grambazar',
+    social_youtube: 'https://youtube.com/@grambazar',
+};
+
+export default function Footer({ site = {} }: { site?: Partial<HomeSiteContent> }) {
+    const content = { ...DEFAULT_SITE, ...site };
     const [email, setEmail] = useState('');
 
     function subscribe(event: React.FormEvent<HTMLFormElement>): void {
@@ -41,32 +59,47 @@ export default function Footer() {
                             </span>
                         </div>
                         <p className="mt-4 max-w-sm leading-relaxed text-emerald-200/80">
-                            সরাসরি কৃষক থেকে শহরের রান্নাঘরে — টাটকা সবজি, ফল, মাছ ও
-                            মসলা, কোনো মধ্যস্বত্বভোগী ছাড়াই।
+                            {content.brand_about}
                         </p>
                         <div className="mt-5 flex gap-3">
                             {(
                                 [
-                                    [Facebook, 'ফেসবুক'],
-                                    [Instagram, 'ইনস্টাগ্রাম'],
-                                    [Youtube, 'ইউটিউব'],
+                                    [Facebook, 'ফেসবুক', content.social_facebook],
+                                    [Instagram, 'ইনস্টাগ্রাম', content.social_instagram],
+                                    [Youtube, 'ইউটিউব', content.social_youtube],
                                 ] as const
-                            ).map(([Icon, label]) => (
-                                <button
-                                    key={label}
-                                    type="button"
-                                    aria-label={label}
-                                    onClick={() =>
-                                        toast(`আমাদের ${label} পেজ শীঘ্রই`)
-                                    }
-                                    className="flex size-9 items-center justify-center rounded-full border border-emerald-800 text-emerald-200 transition-colors hover:border-emerald-500 hover:bg-emerald-800"
-                                >
-                                    <Icon
-                                        className="size-4"
-                                        aria-hidden="true"
-                                    />
-                                </button>
-                            ))}
+                            ).map(([Icon, label, url]) =>
+                                url ? (
+                                    <a
+                                        key={label}
+                                        href={url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={label}
+                                        className="flex size-9 items-center justify-center rounded-full border border-emerald-800 text-emerald-200 transition-colors hover:border-emerald-500 hover:bg-emerald-800"
+                                    >
+                                        <Icon
+                                            className="size-4"
+                                            aria-hidden="true"
+                                        />
+                                    </a>
+                                ) : (
+                                    <button
+                                        key={label}
+                                        type="button"
+                                        aria-label={label}
+                                        onClick={() =>
+                                            toast(`আমাদের ${label} পেজ শীঘ্রই`)
+                                        }
+                                        className="flex size-9 items-center justify-center rounded-full border border-emerald-800 text-emerald-200 transition-colors hover:border-emerald-500 hover:bg-emerald-800"
+                                    >
+                                        <Icon
+                                            className="size-4"
+                                            aria-hidden="true"
+                                        />
+                                    </button>
+                                ),
+                            )}
                         </div>
                     </div>
 
@@ -199,28 +232,28 @@ export default function Footer() {
                                     className="size-4 shrink-0 text-emerald-400"
                                     aria-hidden="true"
                                 />
-                                সিংগাইর, মানিকগঞ্জ
+                                {content.contact_address}
                             </li>
                             <li className="flex items-center gap-2">
                                 <Phone
                                     className="size-4 shrink-0 text-emerald-400"
                                     aria-hidden="true"
                                 />
-                                ০১৭০০-০০০০০০
+                                {content.contact_phone}
                             </li>
                             <li className="flex items-center gap-2">
                                 <Mail
                                     className="size-4 shrink-0 text-emerald-400"
                                     aria-hidden="true"
                                 />
-                                support@grambazar.test
+                                {content.contact_email}
                             </li>
                             <li className="flex items-center gap-2">
                                 <Clock
                                     className="size-4 shrink-0 text-emerald-400"
                                     aria-hidden="true"
                                 />
-                                সকাল ৬টা - রাত ১০টা
+                                {content.contact_hours}
                             </li>
                         </ul>
                     </div>

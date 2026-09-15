@@ -14,6 +14,7 @@ declare module '@inertiajs/core' {
             sidebarOpen: boolean;
             cartCount: number;
             categories: { name: string; slug: string }[];
+            permissions: string[];
             flash: { success?: string; error?: string } | null;
             [key: string]: unknown;
         };

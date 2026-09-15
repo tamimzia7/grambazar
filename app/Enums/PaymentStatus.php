@@ -6,6 +6,7 @@ enum PaymentStatus: string
 {
     case Unpaid = 'unpaid';
     case Paid = 'paid';
+    case Failed = 'failed';
     case Refunded = 'refunded';
 
     /**
@@ -16,6 +17,7 @@ enum PaymentStatus: string
         return match ($this) {
             self::Unpaid => 'পরিশোধ হয়নি',
             self::Paid => 'পরিশোধিত',
+            self::Failed => 'পেমেন্ট ব্যর্থ',
             self::Refunded => 'ফেরত দেওয়া হয়েছে',
         };
     }

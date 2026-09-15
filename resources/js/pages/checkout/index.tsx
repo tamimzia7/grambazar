@@ -38,6 +38,7 @@ export default function CheckoutIndex() {
         delivery_area: '',
         delivery_district: '',
         delivery_instructions: '',
+        coupon_code: '',
     });
 
     function submit(event: React.FormEvent<HTMLFormElement>): void {
@@ -351,6 +352,28 @@ export default function CheckoutIndex() {
                     </ul>
 
                     <dl className="mt-5 space-y-3 border-t border-stone-100 pt-4 text-sm">
+                        <div className="flex items-center justify-between text-stone-600">
+                            <dt>কুপন কোড</dt>
+                            <dd className="font-semibold text-stone-800">
+                                <input
+                                    type="text"
+                                    value={data.coupon_code}
+                                    onChange={(event) =>
+                                        setData(
+                                            'coupon_code',
+                                            event.target.value.toUpperCase(),
+                                        )
+                                    }
+                                    placeholder="ঐচ্ছিক"
+                                    className="h-8 w-28 rounded-lg border border-stone-200 bg-white px-2 text-right font-mono text-xs font-bold text-emerald-800 uppercase placeholder:font-sans placeholder:font-normal placeholder:text-stone-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/30 focus:outline-none"
+                                />
+                            </dd>
+                        </div>
+                        {((errors as unknown as { coupon?: string }).coupon) && (
+                            <p className="rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-600">
+                                {(errors as unknown as { coupon?: string }).coupon}
+                            </p>
+                        )}
                         <div className="flex items-center justify-between text-stone-600">
                             <dt>পণ্যের মূল্য</dt>
                             <dd className="font-semibold text-stone-800">
