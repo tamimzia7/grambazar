@@ -151,7 +151,13 @@ export interface AdminFarmerShowPageProps {
         address: string | null;
         approval_status: StatusOption;
         created_at: string;
-        user: { id: number; name: string; email: string; phone: string | null; is_active: boolean };
+        user: {
+            id: number;
+            name: string;
+            email: string;
+            phone: string | null;
+            is_active: boolean;
+        };
     };
     products: Array<{
         id: number;
@@ -427,7 +433,13 @@ export interface AdminAdminFormValues {
 }
 
 export interface AdminAdminEditPageProps {
-    admin: { id: number; name: string; email: string; phone: string | null; is_active: boolean };
+    admin: {
+        id: number;
+        name: string;
+        email: string;
+        phone: string | null;
+        is_active: boolean;
+    };
 }
 
 // ---------------------------------------------------------------------------

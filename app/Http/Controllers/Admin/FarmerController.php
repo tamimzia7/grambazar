@@ -47,7 +47,7 @@ class FarmerController extends Controller
             ->withQueryString();
 
         return inertia('admin/farmers/index', [
-            'farmer' => $farmers->through(fn (Farmer $farmer): array => [
+            'farmers' => $farmers->through(fn (Farmer $farmer): array => [
                 'id' => $farmer->id,
                 'display_name' => $farmer->display_name,
                 'district' => $farmer->district,

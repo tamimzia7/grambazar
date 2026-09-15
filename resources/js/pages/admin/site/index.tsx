@@ -51,9 +51,12 @@ export default function AdminSiteIndex() {
                 className="mx-auto max-w-3xl space-y-6"
             >
                 {groups.map((group) => (
-                    <section key={group.group} className="rounded-2xl border border-stone-200 bg-white">
+                    <section
+                        key={group.group}
+                        className="rounded-2xl border border-stone-200 bg-white"
+                    >
                         <header className="border-b border-stone-100 px-5 py-4">
-                            <h2 className="text-sm font-extrabold uppercase tracking-wide text-emerald-950">
+                            <h2 className="text-sm font-extrabold tracking-wide text-emerald-950 uppercase">
                                 {group.group}
                             </h2>
                         </header>
@@ -65,7 +68,9 @@ export default function AdminSiteIndex() {
                                     </span>
                                     <input
                                         type="text"
-                                        value={form.data.settings[item.key] ?? ''}
+                                        value={
+                                            form.data.settings[item.key] ?? ''
+                                        }
                                         onChange={(event) =>
                                             form.setData('settings', {
                                                 ...form.data.settings,

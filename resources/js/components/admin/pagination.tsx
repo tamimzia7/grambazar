@@ -3,7 +3,11 @@ import { Link } from '@inertiajs/react';
 import { toBnNumber } from '@/lib/format';
 import type { Paginator } from '@/types/admin';
 
-export default function Pagination<T>({ paginator }: { paginator: Paginator<T> }) {
+export default function Pagination<T>({
+    paginator,
+}: {
+    paginator: Paginator<T>;
+}) {
     if (paginator.links.length <= 3) {
         return null;
     }

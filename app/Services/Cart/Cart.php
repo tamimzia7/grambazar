@@ -3,6 +3,7 @@
 namespace App\Services\Cart;
 
 use App\Models\Product;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
 /**
@@ -97,9 +98,9 @@ class Cart
      * products are still returned so the frontend can flag them as unavailable
      * instead of silently dropping the customer's selection.
      *
-     * @return \Illuminate\Support\Collection<int, CartItem>
+     * @return Collection<int, CartItem>
      */
-    public function items(): \Illuminate\Support\Collection
+    public function items(): Collection
     {
         $products = Product::query()
             ->with(['category', 'images'])

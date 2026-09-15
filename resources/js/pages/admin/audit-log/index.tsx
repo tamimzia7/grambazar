@@ -3,13 +3,14 @@ import { Search } from 'lucide-react';
 
 import PageHeader from '@/components/admin/page-header';
 import Pagination from '@/components/admin/pagination';
-import adminRoutes from '@/routes/admin';
 import type { AdminAuditLogIndexPageProps } from '@/types/admin';
 
 export default function AdminAuditLogIndex() {
     const props = usePage().props as unknown as AdminAuditLogIndexPageProps;
     const { logs, filters } = props;
-    const { data, setData, get } = useForm(filters as Record<string, string | number | boolean | null>);
+    const { data, setData, get } = useForm(
+        filters as Record<string, string | number | boolean | null>,
+    );
 
     const targetLabels: Record<string, string> = {
         user: 'ব্যবহারকারী',
@@ -26,10 +27,7 @@ export default function AdminAuditLogIndex() {
         <>
             <Head title="অডিট লগ" />
 
-            <PageHeader
-                title="অডিট লগ"
-                subtitle="প্রশাসনিক কার্যক্রমের লগ।"
-            />
+            <PageHeader title="অডিট লগ" subtitle="প্রশাসনিক কার্যক্রমের লগ।" />
 
             <div className="rounded-2xl border border-stone-200 bg-white">
                 <form
@@ -40,41 +38,58 @@ export default function AdminAuditLogIndex() {
                     className="flex flex-wrap items-end gap-3 border-b border-stone-100 p-4"
                 >
                     <label className="block grow basis-64">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">খুঁজুন</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            খুঁজুন
+                        </span>
                         <span className="relative block">
-                            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-stone-400" aria-hidden="true" />
+                            <Search
+                                className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-stone-400"
+                                aria-hidden="true"
+                            />
                             <input
                                 type="search"
                                 value={String(data.search ?? '')}
-                                onChange={(event) => setData('search', event.target.value)}
+                                onChange={(event) =>
+                                    setData('search', event.target.value)
+                                }
                                 placeholder="অ্যাকশন বা ব্যবহারকারী"
-                                className="h-9 w-full rounded-md border border-stone-200 bg-white pl-8 text-sm text-stone-800 outline-none transition-colors focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                                className="h-9 w-full rounded-md border border-stone-200 bg-white pl-8 text-sm text-stone-800 transition-colors outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                             />
                         </span>
                     </label>
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">অ্যাকশন</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            অ্যাকশন
+                        </span>
                         <input
                             type="text"
                             value={String(data.action ?? '')}
-                            onChange={(event) => setData('action', event.target.value)}
+                            onChange={(event) =>
+                                setData('action', event.target.value)
+                            }
                             placeholder="যেমন: farmer.approved"
-                            className="h-9 rounded-md border border-stone-200 bg-white px-2.5 text-sm text-stone-800 outline-none transition-colors focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                            className="h-9 rounded-md border border-stone-200 bg-white px-2.5 text-sm text-stone-800 transition-colors outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                         />
                     </label>
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">লক্ষ্য</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            লক্ষ্য
+                        </span>
                         <select
                             value={String(data.target_type ?? '')}
-                            onChange={(event) => setData('target_type', event.target.value)}
-                            className="h-9 rounded-md border border-stone-200 bg-white px-2.5 text-sm text-stone-800 outline-none transition-colors focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                            onChange={(event) =>
+                                setData('target_type', event.target.value)
+                            }
+                            className="h-9 rounded-md border border-stone-200 bg-white px-2.5 text-sm text-stone-800 transition-colors outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
                         >
                             <option value="">সব</option>
-                            {Object.entries(targetLabels).map(([value, label]) => (
-                                <option key={value} value={value}>
-                                    {label}
-                                </option>
-                            ))}
+                            {Object.entries(targetLabels).map(
+                                ([value, label]) => (
+                                    <option key={value} value={value}>
+                                        {label}
+                                    </option>
+                                ),
+                            )}
                         </select>
                     </label>
                     <button
@@ -88,7 +103,7 @@ export default function AdminAuditLogIndex() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
                         <thead>
-                            <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-500">
+                            <tr className="border-b border-stone-100 text-xs tracking-wide text-stone-500 uppercase">
                                 <th className="px-4 py-3">সময়</th>
                                 <th className="px-4 py-3">অভিনয়কারী</th>
                                 <th className="px-4 py-3">অ্যাকশন</th>
@@ -100,22 +115,33 @@ export default function AdminAuditLogIndex() {
                         <tbody className="divide-y divide-stone-100">
                             {logs.data.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="px-4 py-12 text-center text-stone-400">
+                                    <td
+                                        colSpan={6}
+                                        className="px-4 py-12 text-center text-stone-400"
+                                    >
                                         কোনো লগ পাওয়া যায়নি।
                                     </td>
                                 </tr>
                             ) : (
                                 logs.data.map((log) => (
                                     <tr key={log.id}>
-                                        <td className="px-4 py-3 whitespace-nowrap text-stone-600">{log.created_at}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap text-stone-600">
+                                            {log.created_at}
+                                        </td>
                                         <td className="px-4 py-3">
                                             {log.actor ? (
                                                 <>
-                                                    <p className="font-semibold text-emerald-950">{log.actor.name}</p>
-                                                    <p className="text-xs text-stone-500">{log.actor.email}</p>
+                                                    <p className="font-semibold text-emerald-950">
+                                                        {log.actor.name}
+                                                    </p>
+                                                    <p className="text-xs text-stone-500">
+                                                        {log.actor.email}
+                                                    </p>
                                                 </>
                                             ) : (
-                                                <span className="text-stone-400">—</span>
+                                                <span className="text-stone-400">
+                                                    —
+                                                </span>
                                             )}
                                         </td>
                                         <td className="px-4 py-3">
@@ -124,11 +150,25 @@ export default function AdminAuditLogIndex() {
                                             </code>
                                         </td>
                                         <td className="px-4 py-3 text-stone-600">
-                                            {log.target_type ? (targetLabels[log.target_type] ?? log.target_type) : '—'}
+                                            {log.target_type
+                                                ? (targetLabels[
+                                                      log.target_type
+                                                  ] ?? log.target_type)
+                                                : '—'}
                                         </td>
-                                        <td className="px-4 py-3 text-stone-600">{log.target_id ?? '—'}</td>
+                                        <td className="px-4 py-3 text-stone-600">
+                                            {log.target_id ?? '—'}
+                                        </td>
                                         <td className="px-4 py-3 text-xs text-stone-500">
-                                            {log.metadata ? <pre className="whitespace-pre-wrap">{JSON.stringify(log.metadata)}</pre> : '—'}
+                                            {log.metadata ? (
+                                                <pre className="whitespace-pre-wrap">
+                                                    {JSON.stringify(
+                                                        log.metadata,
+                                                    )}
+                                                </pre>
+                                            ) : (
+                                                '—'
+                                            )}
                                         </td>
                                     </tr>
                                 ))

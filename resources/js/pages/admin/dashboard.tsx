@@ -1,5 +1,11 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { CircleDollarSign, ListOrdered, Package, Sprout, Users } from 'lucide-react';
+import {
+    CircleDollarSign,
+    ListOrdered,
+    Package,
+    Sprout,
+    Users,
+} from 'lucide-react';
 
 import { formatTaka } from '@/lib/format';
 import StatCard from '@/components/admin/stat-card';
@@ -21,8 +27,15 @@ export default function AdminDashboard() {
                 subtitle="গ্রামবাজারের সর্বশেষ অবস্থা এক নজরে।"
             />
 
-            <section aria-label="সংখ্যালেখ্য" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-                <StatCard label="মোট ব্যবহারকারী" value={stats.users} icon={<Users className="size-5" aria-hidden="true" />} />
+            <section
+                aria-label="সংখ্যালেখ্য"
+                className="grid grid-cols-2 gap-4 lg:grid-cols-4"
+            >
+                <StatCard
+                    label="মোট ব্যবহারকারী"
+                    value={stats.users}
+                    icon={<Users className="size-5" aria-hidden="true" />}
+                />
                 <StatCard
                     label="মোট কৃষক"
                     value={stats.farmers}
@@ -55,17 +68,30 @@ export default function AdminDashboard() {
                 <StatCard
                     label="নগদ বিক্রয় (পরিশোধিত)"
                     value={stats.totalSales}
-                    icon={<CircleDollarSign className="size-5" aria-hidden="true" />}
+                    icon={
+                        <CircleDollarSign
+                            className="size-5"
+                            aria-hidden="true"
+                        />
+                    }
                 />
                 <StatCard
                     label="অপরিশোধিত বিক্রয়"
                     value={stats.unpaidSales}
-                    icon={<CircleDollarSign className="size-5" aria-hidden="true" />}
+                    icon={
+                        <CircleDollarSign
+                            className="size-5"
+                            aria-hidden="true"
+                        />
+                    }
                     tone="rose"
                 />
             </section>
 
-            <section aria-label="সাম্প্রতিক কার্যকলাপ" className="mt-6 grid gap-4 lg:grid-cols-2">
+            <section
+                aria-label="সাম্প্রতিক কার্যকলাপ"
+                className="mt-6 grid gap-4 lg:grid-cols-2"
+            >
                 <DashboardPanel
                     title="সাম্প্রতিক অর্ডার"
                     href={adminRoutes.orders.index.url()}
@@ -76,16 +102,26 @@ export default function AdminDashboard() {
                     ) : (
                         <ul className="divide-y divide-stone-100">
                             {recentOrders.map((order) => (
-                                <li key={order.order_number} className="flex items-center justify-between py-3">
+                                <li
+                                    key={order.order_number}
+                                    className="flex items-center justify-between py-3"
+                                >
                                     <div>
-                                        <p className="font-bold text-emerald-950">#{order.order_number}</p>
+                                        <p className="font-bold text-emerald-950">
+                                            #{order.order_number}
+                                        </p>
                                         <p className="text-xs text-stone-500">
-                                            {order.customer_name} · {order.created_at}
+                                            {order.customer_name} ·{' '}
+                                            {order.created_at}
                                         </p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-extrabold text-emerald-700">{formatTaka(order.total)}</p>
-                                        <StatusBadge value={order.order_status} />
+                                        <p className="font-extrabold text-emerald-700">
+                                            {formatTaka(order.total)}
+                                        </p>
+                                        <StatusBadge
+                                            value={order.order_status}
+                                        />
                                     </div>
                                 </li>
                             ))}
@@ -103,14 +139,22 @@ export default function AdminDashboard() {
                     ) : (
                         <ul className="divide-y divide-stone-100">
                             {recentFarmers.map((farmer) => (
-                                <li key={farmer.id} className="flex items-center justify-between py-3">
+                                <li
+                                    key={farmer.id}
+                                    className="flex items-center justify-between py-3"
+                                >
                                     <div>
-                                        <p className="font-bold text-emerald-950">{farmer.display_name}</p>
+                                        <p className="font-bold text-emerald-950">
+                                            {farmer.display_name}
+                                        </p>
                                         <p className="text-xs text-stone-500">
-                                            {farmer.district} · {farmer.created_at}
+                                            {farmer.district} ·{' '}
+                                            {farmer.created_at}
                                         </p>
                                     </div>
-                                    <StatusBadge value={farmer.approval_status} />
+                                    <StatusBadge
+                                        value={farmer.approval_status}
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -127,11 +171,24 @@ export default function AdminDashboard() {
                     ) : (
                         <ul className="divide-y divide-stone-100">
                             {recentProducts.map((product) => (
-                                <li key={product.id} className="flex items-center justify-between py-3">
-                                    <p className="font-bold text-emerald-950">{product.name}</p>
+                                <li
+                                    key={product.id}
+                                    className="flex items-center justify-between py-3"
+                                >
+                                    <p className="font-bold text-emerald-950">
+                                        {product.name}
+                                    </p>
                                     <div className="text-right">
-                                        <p className="font-extrabold text-emerald-700">{formatTaka(product.price)}</p>
-                                        <StatusBadge value={product.is_active ? 'সক্রিয়' : 'লুকানো'} />
+                                        <p className="font-extrabold text-emerald-700">
+                                            {formatTaka(product.price)}
+                                        </p>
+                                        <StatusBadge
+                                            value={
+                                                product.is_active
+                                                    ? 'সক্রিয়'
+                                                    : 'লুকানো'
+                                            }
+                                        />
                                     </div>
                                 </li>
                             ))}
@@ -149,12 +206,22 @@ export default function AdminDashboard() {
                     ) : (
                         <ul className="divide-y divide-stone-100">
                             {recentUsers.map((user) => (
-                                <li key={user.id} className="flex items-center justify-between py-3">
+                                <li
+                                    key={user.id}
+                                    className="flex items-center justify-between py-3"
+                                >
                                     <div>
-                                        <p className="font-bold text-emerald-950">{user.name}</p>
-                                        <p className="text-xs text-stone-500">{user.email}</p>
+                                        <p className="font-bold text-emerald-950">
+                                            {user.name}
+                                        </p>
+                                        <p className="text-xs text-stone-500">
+                                            {user.email}
+                                        </p>
                                     </div>
-                                    <StatusBadge value={user.role} tone="stone" />
+                                    <StatusBadge
+                                        value={user.role}
+                                        tone="stone"
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -183,8 +250,13 @@ function DashboardPanel({
     return (
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
             <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-base font-extrabold text-emerald-950">{title}</h2>
-                <Link href={href} className="text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                <h2 className="text-base font-extrabold text-emerald-950">
+                    {title}
+                </h2>
+                <Link
+                    href={href}
+                    className="text-xs font-bold text-emerald-700 hover:text-emerald-800"
+                >
                     {hrefLabel} →
                 </Link>
             </div>

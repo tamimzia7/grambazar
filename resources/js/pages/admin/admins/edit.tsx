@@ -21,7 +21,11 @@ export default function AdminAdminsEdit() {
     });
 
     const errorText = (key: keyof typeof form.data) =>
-        form.errors[key] ? <span className="text-xs font-semibold text-rose-600">{form.errors[key]}</span> : null;
+        form.errors[key] ? (
+            <span className="text-xs font-semibold text-rose-600">
+                {form.errors[key]}
+            </span>
+        ) : null;
 
     return (
         <>
@@ -44,50 +48,68 @@ export default function AdminAdminsEdit() {
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
-                    form.put(adminRoutes.admins.update.url({ admin_user: admin.id }));
+                    form.put(
+                        adminRoutes.admins.update.url({ admin_user: admin.id }),
+                    );
                 }}
                 className="mx-auto max-w-xl rounded-2xl border border-stone-200 bg-white p-5"
             >
                 <div className="space-y-4">
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">নাম *</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            নাম *
+                        </span>
                         <input
                             type="text"
                             value={form.data.name}
-                            onChange={(event) => form.setData('name', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('name', event.target.value)
+                            }
                             className={inputClass}
                         />
                         {errorText('name')}
                     </label>
 
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">ইমেইল *</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            ইমেইল *
+                        </span>
                         <input
                             type="email"
                             value={form.data.email}
-                            onChange={(event) => form.setData('email', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('email', event.target.value)
+                            }
                             className={inputClass}
                         />
                         {errorText('email')}
                     </label>
 
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">ফোন</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            ফোন
+                        </span>
                         <input
                             type="text"
                             value={form.data.phone}
-                            onChange={(event) => form.setData('phone', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('phone', event.target.value)
+                            }
                             className={inputClass}
                         />
                         {errorText('phone')}
                     </label>
 
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">নতুন পাসওয়ার্ড</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            নতুন পাসওয়ার্ড
+                        </span>
                         <input
                             type="password"
                             value={form.data.password}
-                            onChange={(event) => form.setData('password', event.target.value)}
+                            onChange={(event) =>
+                                form.setData('password', event.target.value)
+                            }
                             placeholder="পরিবর্তন করতে চাইলে নতুন পাসওয়ার্ড দিন"
                             className={inputClass}
                         />
@@ -98,10 +120,14 @@ export default function AdminAdminsEdit() {
                         <input
                             type="checkbox"
                             checked={form.data.is_active}
-                            onChange={(event) => form.setData('is_active', event.target.checked)}
+                            onChange={(event) =>
+                                form.setData('is_active', event.target.checked)
+                            }
                             className="size-4 accent-emerald-600"
                         />
-                        <span className="text-sm font-medium text-stone-600">সক্রিয় (লগইনযোগ্য)</span>
+                        <span className="text-sm font-medium text-stone-600">
+                            সক্রিয় (লগইনযোগ্য)
+                        </span>
                     </label>
                 </div>
 

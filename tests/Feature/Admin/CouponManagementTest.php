@@ -4,6 +4,7 @@ use App\Enums\CouponType;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -107,7 +108,7 @@ describe('checkout security', function () {
             ->and($order->coupon_code)->toBe($coupon->code)
             ->and((float) $order->total)->toBe(240.0);
 
-        $this->assertDatabaseHas('coupon_usage', [
+        $this->assertDatabaseHas('coupon_usages', [
             'coupon_id' => $coupon->id,
             'order_id' => $order->id,
             'user_id' => auth()->id(),

@@ -4,7 +4,6 @@ import { Eye, Search } from 'lucide-react';
 import PageHeader from '@/components/admin/page-header';
 import Pagination from '@/components/admin/pagination';
 import StatusBadge from '@/components/admin/status-badge';
-import { toBnNumber } from '@/lib/format';
 import adminRoutes from '@/routes/admin';
 import type { AdminUsersIndexPageProps } from '@/types/admin';
 
@@ -14,7 +13,9 @@ const inputClass =
 export default function AdminUsersIndex() {
     const props = usePage().props as unknown as AdminUsersIndexPageProps;
     const { users, filters, roles } = props;
-    const { data, setData, get } = useForm(filters as Record<string, string | number | boolean | null>);
+    const { data, setData, get } = useForm(
+        filters as Record<string, string | number | boolean | null>,
+    );
 
     const apply = () => get(window.location.pathname, { preserveState: true });
 
@@ -36,23 +37,34 @@ export default function AdminUsersIndex() {
                     className="flex flex-wrap items-end gap-3 border-b border-stone-100 p-4"
                 >
                     <label className="block grow basis-64">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">খুঁজুন</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            খুঁজুন
+                        </span>
                         <span className="relative block">
-                            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-stone-400" aria-hidden="true" />
+                            <Search
+                                className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-stone-400"
+                                aria-hidden="true"
+                            />
                             <input
                                 type="search"
                                 value={String(data.search ?? '')}
-                                onChange={(event) => setData('search', event.target.value)}
+                                onChange={(event) =>
+                                    setData('search', event.target.value)
+                                }
                                 placeholder="নাম, ইমেইল বা ফোন"
                                 className={`${inputClass} w-full pl-8`}
                             />
                         </span>
                     </label>
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">রোল</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            রোল
+                        </span>
                         <select
                             value={String(data.role ?? '')}
-                            onChange={(event) => setData('role', event.target.value)}
+                            onChange={(event) =>
+                                setData('role', event.target.value)
+                            }
                             className={inputClass}
                         >
                             <option value="">সব রোল</option>
@@ -64,10 +76,14 @@ export default function AdminUsersIndex() {
                         </select>
                     </label>
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">স্ট্যাটাস</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            স্ট্যাটাস
+                        </span>
                         <select
                             value={String(data.status ?? '')}
-                            onChange={(event) => setData('status', event.target.value)}
+                            onChange={(event) =>
+                                setData('status', event.target.value)
+                            }
                             className={inputClass}
                         >
                             <option value="">সব স্ট্যাটাস</option>
@@ -86,7 +102,7 @@ export default function AdminUsersIndex() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
                         <thead>
-                            <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-500">
+                            <tr className="border-b border-stone-100 text-xs tracking-wide text-stone-500 uppercase">
                                 <th className="px-4 py-3">ব্যবহারকারী</th>
                                 <th className="px-4 py-3">রোল</th>
                                 <th className="px-4 py-3">স্ট্যাটাস</th>
@@ -97,7 +113,10 @@ export default function AdminUsersIndex() {
                         <tbody className="divide-y divide-stone-100">
                             {users.data.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-4 py-12 text-center text-stone-400">
+                                    <td
+                                        colSpan={5}
+                                        className="px-4 py-12 text-center text-stone-400"
+                                    >
                                         কোনো ব্যবহারকারী পাওয়া যায়নি।
                                     </td>
                                 </tr>
@@ -105,22 +124,42 @@ export default function AdminUsersIndex() {
                                 users.data.map((user) => (
                                     <tr key={user.id}>
                                         <td className="px-4 py-3">
-                                            <p className="font-bold text-emerald-950">{user.name}</p>
-                                            <p className="text-xs text-stone-500">{user.email}</p>
+                                            <p className="font-bold text-emerald-950">
+                                                {user.name}
+                                            </p>
+                                            <p className="text-xs text-stone-500">
+                                                {user.email}
+                                            </p>
                                         </td>
                                         <td className="px-4 py-3">
-                                            <StatusBadge value={user.role.label} tone="stone" />
+                                            <StatusBadge
+                                                value={user.role.label}
+                                                tone="stone"
+                                            />
                                         </td>
                                         <td className="px-4 py-3">
-                                            <StatusBadge value={user.is_active ? 'সক্রিয়' : 'নিষ্ক্রিয়'} />
+                                            <StatusBadge
+                                                value={
+                                                    user.is_active
+                                                        ? 'সক্রিয়'
+                                                        : 'নিষ্ক্রিয়'
+                                                }
+                                            />
                                         </td>
-                                        <td className="px-4 py-3 text-stone-600">{user.created_at}</td>
+                                        <td className="px-4 py-3 text-stone-600">
+                                            {user.created_at}
+                                        </td>
                                         <td className="px-4 py-3 text-right">
                                             <Link
-                                                href={adminRoutes.users.show.url({ user: user.id })}
+                                                href={adminRoutes.users.show.url(
+                                                    { user: user.id },
+                                                )}
                                                 className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-800 transition-colors hover:bg-emerald-100"
                                             >
-                                                <Eye className="size-3.5" aria-hidden="true" />
+                                                <Eye
+                                                    className="size-3.5"
+                                                    aria-hidden="true"
+                                                />
                                                 বিস্তারিত
                                             </Link>
                                         </td>

@@ -33,7 +33,11 @@ const DEFAULT_SITE: HomeSiteContent = {
     social_youtube: 'https://youtube.com/@grambazar',
 };
 
-export default function Footer({ site = {} }: { site?: Partial<HomeSiteContent> }) {
+export default function Footer({
+    site = {},
+}: {
+    site?: Partial<HomeSiteContent>;
+}) {
     const content = { ...DEFAULT_SITE, ...site };
     const [email, setEmail] = useState('');
 
@@ -64,8 +68,16 @@ export default function Footer({ site = {} }: { site?: Partial<HomeSiteContent> 
                         <div className="mt-5 flex gap-3">
                             {(
                                 [
-                                    [Facebook, 'ফেসবুক', content.social_facebook],
-                                    [Instagram, 'ইনস্টাগ্রাম', content.social_instagram],
+                                    [
+                                        Facebook,
+                                        'ফেসবুক',
+                                        content.social_facebook,
+                                    ],
+                                    [
+                                        Instagram,
+                                        'ইনস্টাগ্রাম',
+                                        content.social_instagram,
+                                    ],
                                     [Youtube, 'ইউটিউব', content.social_youtube],
                                 ] as const
                             ).map(([Icon, label, url]) =>

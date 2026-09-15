@@ -135,7 +135,11 @@ const navSections: NavSection[] = [
     },
 ];
 
-function allowed(permissions: string[], item: NavItem, isSuperAdmin: boolean): boolean {
+function allowed(
+    permissions: string[],
+    item: NavItem,
+    isSuperAdmin: boolean,
+): boolean {
     if (item.superAdminOnly) {
         return isSuperAdmin;
     }
@@ -169,7 +173,9 @@ function AdminNav({
     return (
         <div className="flex flex-col gap-5 pr-2">
             {navSections.map((section, index) => {
-                const items = section.items.filter((item) => allowed(permissions, item, isSuperAdmin));
+                const items = section.items.filter((item) =>
+                    allowed(permissions, item, isSuperAdmin),
+                );
 
                 if (items.length === 0) {
                     return null;
@@ -178,7 +184,7 @@ function AdminNav({
                 return (
                     <div key={section.heading ?? index}>
                         {section.heading ? (
-                            <p className="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-wider text-stone-400">
+                            <p className="mb-1.5 px-3 text-[11px] font-bold tracking-wider text-stone-400 uppercase">
                                 {section.heading}
                             </p>
                         ) : null}
@@ -193,14 +199,19 @@ function AdminNav({
                                         href={item.href}
                                         prefetch
                                         onClick={onNavigate}
-                                        aria-current={active ? 'page' : undefined}
+                                        aria-current={
+                                            active ? 'page' : undefined
+                                        }
                                         className={`flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
                                             active
                                                 ? 'bg-emerald-600 text-white'
                                                 : 'text-stone-600 hover:bg-emerald-50 hover:text-emerald-800'
                                         }`}
                                     >
-                                        <Icon className="size-4 shrink-0" aria-hidden="true" />
+                                        <Icon
+                                            className="size-4 shrink-0"
+                                            aria-hidden="true"
+                                        />
                                         {item.label}
                                     </Link>
                                 );
@@ -232,13 +243,19 @@ function AdminNav({
     );
 }
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     const page = usePage();
     const { url } = page;
     const { auth, permissions } = page.props;
     const [open, setOpen] = useState(false);
 
-    const userPermissions = Array.isArray(permissions) ? (permissions as string[]) : [];
+    const userPermissions = Array.isArray(permissions)
+        ? (permissions as string[])
+        : [];
     const user = auth.user;
     const isSuperAdmin = user.role === 'super_admin';
 
@@ -327,7 +344,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     />
                 </aside>
 
-                <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+                <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+                    {children}
+                </main>
             </div>
         </div>
     );

@@ -369,9 +369,12 @@ export default function CheckoutIndex() {
                                 />
                             </dd>
                         </div>
-                        {((errors as unknown as { coupon?: string }).coupon) && (
+                        {(errors as unknown as { coupon?: string }).coupon && (
                             <p className="rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-600">
-                                {(errors as unknown as { coupon?: string }).coupon}
+                                {
+                                    (errors as unknown as { coupon?: string })
+                                        .coupon
+                                }
                             </p>
                         )}
                         <div className="flex items-center justify-between text-stone-600">

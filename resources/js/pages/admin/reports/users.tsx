@@ -22,10 +22,14 @@ export default function AdminReportsUsers() {
         <>
             <Head title="ব্যবহারকারী রিপোর্ট" />
 
-            <ReportFrame meta={meta} filters={filters} baseUrl={adminRoutes.reports.users.url()}>
+            <ReportFrame
+                meta={meta}
+                filters={filters}
+                baseUrl={adminRoutes.reports.users.url()}
+            >
                 <table className="w-full text-left text-xs sm:text-sm print:text-xs">
                     <thead>
-                        <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-500">
+                        <tr className="border-b border-stone-100 text-xs tracking-wide text-stone-500 uppercase">
                             <th className="px-5 py-3">নাম</th>
                             <th className="px-5 py-3">ইমেইল</th>
                             <th className="px-5 py-3">ফোন</th>
@@ -38,20 +42,37 @@ export default function AdminReportsUsers() {
                     <tbody className="divide-y divide-stone-100">
                         {rows.length === 0 ? (
                             <tr>
-                                <td colSpan={7} className="px-5 py-10 text-center text-stone-400">
+                                <td
+                                    colSpan={7}
+                                    className="px-5 py-10 text-center text-stone-400"
+                                >
                                     কোনো রেকর্ড নেই।
                                 </td>
                             </tr>
                         ) : (
                             rows.map((row, index) => (
                                 <tr key={`${row.email}-${index}`}>
-                                    <td className="px-5 py-2.5 font-semibold text-emerald-950">{row.name}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.email}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.phone ?? '—'}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.role}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.status}</td>
-                                    <td className="px-5 py-2.5 text-right font-bold text-emerald-950">{row.orders_count}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.created_at}</td>
+                                    <td className="px-5 py-2.5 font-semibold text-emerald-950">
+                                        {row.name}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.email}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.phone ?? '—'}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.role}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.status}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-right font-bold text-emerald-950">
+                                        {row.orders_count}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.created_at}
+                                    </td>
                                 </tr>
                             ))
                         )}

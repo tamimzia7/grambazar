@@ -40,8 +40,8 @@ it('filters the orders report by its lifecycle status', function () {
     $this->get(route('admin.reports.orders', ['order_status' => 'pending']))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->where('rows.0.order_number', $pending->order_number)
-            ->where('rows.1', null));
+            ->count('rows', 1)
+            ->where('rows.0.order_number', $pending->order_number));
 });
 
 it('sums only settled and paid sales in the sales report', function () {

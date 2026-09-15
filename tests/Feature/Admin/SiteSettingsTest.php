@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\SiteSettingSeeder;
 use Inertia\Testing\AssertableInertia as Assert;

@@ -31,14 +31,20 @@ export default function AdminReportsOrders() {
                 baseUrl={adminRoutes.reports.orders.url()}
                 summary={
                     <div className="flex flex-wrap gap-4 border-b border-stone-100 bg-emerald-50/50 px-5 py-3">
-                        <Summary value={`${rows.length}টি অর্ডার`} label="মোট রেকর্ড" />
-                        <Summary value={formatTaka(meta.settled_sum ?? 0)} label="পরিশোধিত অর্ডারের মূল্য" />
+                        <Summary
+                            value={`${rows.length}টি অর্ডার`}
+                            label="মোট রেকর্ড"
+                        />
+                        <Summary
+                            value={formatTaka(meta.settled_sum ?? 0)}
+                            label="পরিশোধিত অর্ডারের মূল্য"
+                        />
                     </div>
                 }
             >
                 <table className="w-full text-left text-xs sm:text-sm print:text-xs">
                     <thead>
-                        <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-500">
+                        <tr className="border-b border-stone-100 text-xs tracking-wide text-stone-500 uppercase">
                             <th className="px-5 py-3">অর্ডার</th>
                             <th className="px-5 py-3">গ্রাহক</th>
                             <th className="px-5 py-3 text-right">আইটেম</th>
@@ -52,24 +58,45 @@ export default function AdminReportsOrders() {
                     <tbody className="divide-y divide-stone-100">
                         {rows.length === 0 ? (
                             <tr>
-                                <td colSpan={8} className="px-5 py-10 text-center text-stone-400">
+                                <td
+                                    colSpan={8}
+                                    className="px-5 py-10 text-center text-stone-400"
+                                >
                                     কোনো রেকর্ড নেই।
                                 </td>
                             </tr>
                         ) : (
                             rows.map((row) => (
                                 <tr key={row.order_number}>
-                                    <td className="px-5 py-2.5 font-mono font-bold text-emerald-950">{row.order_number}</td>
-                                    <td className="px-5 py-2.5">
-                                        <p className="font-semibold text-emerald-950">{row.customer_name}</p>
-                                        <p className="text-xs text-stone-500">+{row.customer_phone}</p>
+                                    <td className="px-5 py-2.5 font-mono font-bold text-emerald-950">
+                                        {row.order_number}
                                     </td>
-                                    <td className="px-5 py-2.5 text-right text-stone-600">{row.items_count}</td>
-                                    <td className="px-5 py-2.5 text-right font-bold text-emerald-950">{formatTaka(row.total)}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.payment_method}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.order_status}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.payment_status}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.created_at}</td>
+                                    <td className="px-5 py-2.5">
+                                        <p className="font-semibold text-emerald-950">
+                                            {row.customer_name}
+                                        </p>
+                                        <p className="text-xs text-stone-500">
+                                            +{row.customer_phone}
+                                        </p>
+                                    </td>
+                                    <td className="px-5 py-2.5 text-right text-stone-600">
+                                        {row.items_count}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-right font-bold text-emerald-950">
+                                        {formatTaka(row.total)}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.payment_method}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.order_status}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.payment_status}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.created_at}
+                                    </td>
                                 </tr>
                             ))
                         )}
@@ -83,8 +110,12 @@ export default function AdminReportsOrders() {
 function Summary({ label, value }: { label: string; value: string }) {
     return (
         <div className="flex items-baseline gap-2">
-            <span className="text-xs font-semibold text-stone-500">{label}:</span>
-            <span className="text-sm font-extrabold text-emerald-800">{value}</span>
+            <span className="text-xs font-semibold text-stone-500">
+                {label}:
+            </span>
+            <span className="text-sm font-extrabold text-emerald-800">
+                {value}
+            </span>
         </div>
     );
 }

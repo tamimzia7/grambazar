@@ -33,10 +33,14 @@ export default function AdminUserShow() {
                 <div className="mb-4 rounded-2xl border border-stone-200 bg-white p-4">
                     <p className="text-sm text-stone-600">
                         অ্যাকাউন্টের লগইন স্ট্যাটাস:{' '}
-                        <StatusBadge value={user.is_active ? 'সক্রিয়' : 'নিষ্ক্রিয়'} />
+                        <StatusBadge
+                            value={user.is_active ? 'সক্রিয়' : 'নিষ্ক্রিয়'}
+                        />
                     </p>
                     <Link
-                        href={adminRoutes.users.toggleActive.url({ user: user.id })}
+                        href={adminRoutes.users.toggleActive.url({
+                            user: user.id,
+                        })}
                         method="post"
                         as="button"
                         className="mt-3 rounded-md bg-stone-900 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-stone-700"
@@ -50,19 +54,36 @@ export default function AdminUserShow() {
                 <InfoCard title="অ্যাকাউন্ট তথ্য">
                     <InfoRow label="রোল" value={user.role.label} />
                     <InfoRow label="ফোন" value={user.phone ?? '—'} />
-                    <InfoRow label="অর্ডার সংখ্যা" value={toBnNumber(user.orders_count)} />
-                    <InfoRow label="মোট কেনাকাটা" value={formatTaka(user.total_spent)} />
+                    <InfoRow
+                        label="অর্ডার সংখ্যা"
+                        value={toBnNumber(user.orders_count)}
+                    />
+                    <InfoRow
+                        label="মোট কেনাকাটা"
+                        value={formatTaka(user.total_spent)}
+                    />
                     <InfoRow label="যোগদান" value={user.created_at} />
                 </InfoCard>
 
                 {farmer !== null ? (
                     <InfoCard title="কৃষক প্রোফাইল">
-                        <InfoRow label="প্রদর্শন নাম" value={farmer.display_name} />
+                        <InfoRow
+                            label="প্রদর্শন নাম"
+                            value={farmer.display_name}
+                        />
                         <InfoRow label="জেলা" value={farmer.district} />
-                        <InfoRow label="অনুমোদন" value={farmer.approval_status} />
-                        <InfoRow label="সক্রিয় পণ্য" value={toBnNumber(farmer.products_count)} />
+                        <InfoRow
+                            label="অনুমোদন"
+                            value={farmer.approval_status}
+                        />
+                        <InfoRow
+                            label="সক্রিয় পণ্য"
+                            value={toBnNumber(farmer.products_count)}
+                        />
                         <Link
-                            href={adminRoutes.farmers.show.url({ farmer: farmer.id })}
+                            href={adminRoutes.farmers.show.url({
+                                farmer: farmer.id,
+                            })}
                             className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 transition-colors hover:bg-emerald-100"
                         >
                             <Package className="size-4" aria-hidden="true" />
@@ -71,7 +92,9 @@ export default function AdminUserShow() {
                     </InfoCard>
                 ) : (
                     <InfoCard title="কৃষক প্রোফাইল">
-                        <p className="text-sm text-stone-400">এই ব্যবহারকারী কৃষক নয়।</p>
+                        <p className="text-sm text-stone-400">
+                            এই ব্যবহারকারী কৃষক নয়।
+                        </p>
                     </InfoCard>
                 )}
             </div>
@@ -79,10 +102,18 @@ export default function AdminUserShow() {
     );
 }
 
-function InfoCard({ title, children }: { title: string; children: React.ReactNode }) {
+function InfoCard({
+    title,
+    children,
+}: {
+    title: string;
+    children: React.ReactNode;
+}) {
     return (
         <div className="rounded-2xl border border-stone-200 bg-white p-5">
-            <h2 className="mb-3 text-base font-extrabold text-emerald-950">{title}</h2>
+            <h2 className="mb-3 text-base font-extrabold text-emerald-950">
+                {title}
+            </h2>
             <dl className="divide-y divide-stone-100">{children}</dl>
         </div>
     );

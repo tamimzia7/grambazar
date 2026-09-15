@@ -55,7 +55,9 @@ export default function ReportFrame({
                         <input
                             type="date"
                             value={dateFrom}
-                            onChange={(event) => setDateFrom(event.target.value)}
+                            onChange={(event) =>
+                                setDateFrom(event.target.value)
+                            }
                             className={inputClass}
                         />
                     </label>
@@ -82,7 +84,7 @@ export default function ReportFrame({
                     {(filters.date_from || filters.date_to) && (
                         <Link
                             href={baseUrl}
-                            className="h-9 inline-flex items-center rounded-md border border-stone-200 px-3 text-sm font-semibold text-stone-600"
+                            className="inline-flex h-9 items-center rounded-md border border-stone-200 px-3 text-sm font-semibold text-stone-600"
                         >
                             রিসেট
                         </Link>
@@ -115,9 +117,12 @@ export default function ReportFrame({
 
             <div className="print-area overflow-hidden rounded-2xl border border-stone-200 bg-white">
                 <div className="border-b border-stone-100 px-5 py-4">
-                    <h2 className="text-lg font-extrabold text-emerald-950">{meta.title}</h2>
+                    <h2 className="text-lg font-extrabold text-emerald-950">
+                        {meta.title}
+                    </h2>
                     <p className="mt-0.5 text-xs text-stone-500">
-                        তৈরি: {meta.generated_at} · মোট রেকর্ড: {toBnNumber(meta.count)}
+                        তৈরি: {meta.generated_at} · মোট রেকর্ড:{' '}
+                        {toBnNumber(meta.count)}
                     </p>
                 </div>
 

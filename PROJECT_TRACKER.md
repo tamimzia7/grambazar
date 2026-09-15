@@ -2,7 +2,7 @@
 
 ## Project Status
 
-Phase: 05 — Authentication & Customer Account
+Phase: 07 — Admin & Super Admin Management
 Status: Completed
 
 ## Phase 01 — Foundation
@@ -145,15 +145,32 @@ Status: Completed
 
 ## Phase 07 — Admin
 
-- [ ] Admin dashboard
-- [ ] User management
-- [ ] Farmer management
-- [ ] Category management
-- [ ] Product management
-- [ ] Order management
-- [ ] Coupon management
-- [ ] Reports
-- [ ] Site management
+- [x] Admin dashboard
+- [x] User management
+- [x] Farmer management
+- [x] Category management
+- [x] Product management
+- [x] Order management
+- [x] Coupon management
+- [x] Reports
+- [x] Site management
+
+**Phase 07 Notes:**
+
+- **Routes:** Every admin route sits behind `['auth','verified','admin']` middleware, prefix `admin`, name `admin.`. `app/Http/Middleware/EnsureAdmin` (admin/super admin only), `EnsurePermission` (granular grants, super admins always pass), `EnsureRole` (used for `role:super_admin` on admin-account management). Aliases registered in `bootstrap/app.php`.
+- **Permissions:** Per-area gates on whole groups (e.g. `permission:users.view`) plus per-action middleware for writes (`users.manage_status`, `farmers.approve/reject/suspend`, `categories.create/edit/manage_status`, `products.edit/stock/moderate`, `orders.update/payment`, `coupons.create/edit/manage`, `reports.view`, `site.manage`, `audit.view`). `PermissionSeeder` seeds the catalogue; grants stored in `role_permission` (`role` keyed) bound to the `admin` role only — **super admins implicitly hold every permission** (`User::hasPermission`). `HandleInertiaRequests` shares `permissions` to the frontend so sidebar items render only when granted.
+- **Admin (Super Admin) account management:** `/admin/admins/*` is `role:super_admin` only. `AdminUserController` forces the `role` to `Admin` server-side (`StoreAdminRequest` never trusts a browser-supplied role; tested), marks email verified, Super Admin accounts cannot be edited/toogled (`canTune` guard), and no admin can deactivate themselves. Permission editor (`/admins/{admin_user}/permissions`) edits grants for the **admin role** (role-scoped), not per-user.
+- **Dashboard:** stat tiles (users, farmers, pending farmers, products/active, orders, ongoing/completed, paid/unpaid sales) + recent orders/farmers/products/users lists. Bengali-first UI under `resources/js/pages/admin/*` wrapped in `resources/js/layouts/admin-layout.tsx`.
+- **User & Farmer management:** paginated/searchable/filterable lists; detail page ties a user to their farmer profile. Farmers: approve/reject/suspend/reactivate flows (bounded by permission), and account toggle — each writes an audit log entry (`AuditLogService`).
+- **Category management:** read-only-product guarded safe deletion (category with products cannot be deleted), toggle-active, single-level hierarchy enforced (children only under roots). Audit-logged.
+- **Product/Order management:** product detail/edit/stock/toggle-active (audit-logged). Orders list filters by order/status/payment/date; detail shows snapshots plus **legal transitions only** — `app/Support/OrderTransitions` (order: pending→confirmed/cancelled, confirmed→processing/cancelled, processing→shipped/cancelled, shipped→delivered/cancelled, delivered/cancelled terminal; payment: unpaid→paid/failed, paid→refunded, failed→paid, refunded terminal). Illegal transitions rejected with Bengali error.
+- **Coupons:** CRUD + toggle-active + delete (audit-logged). `app/Services/Coupon/CouponService` re-validates server-side at checkout: active, not expired/not-started, usage left, min order value; discount always derived from the DB row (never browser-supplied), applied under `lockForUpdate` in `OrderPlacer`, linking usage to the order and incrementing `used_count`. **Coupon-seeding migration/table bug fixed:** table was created as `coupon_usage` (singular) while the model default expects `coupon_usages`; renamed by new migration `2026_09_15_000937_rename_coupon_usage_table` (dev DB migrated; FKs intact).
+- **Reports:** read-only report pages (`users`, `farmers`, `products`, `orders`, `sales`) behind `permission:reports.view`, each with date (+status) filters, capped at 1000 rows, summary totals, and a shared `ReportFrame` component giving "প্রিন্ট প্রিভিউ" / "PDF হিসেবে ডাউনলোড" (opens the browser print dialog; `print-hidden` keeps the toolbar off the paper).
+- **Site management:** `SiteSettingController` index/update behind `permission:site.manage`; settings reused by the homepage footer (contact + socials).
+- **Audit log:** `audit_logs` table + `AuditLogService::record(actor, action, target_type, target_id, metadata)`, list/search/filter page behind `permission:audit.view`.
+- **Auth redirects (Fortify `LoginResponse`):** customer → `/account`, farmer → `/dashboard`, admin/super admin → `admin.dashboard` (`/admin`). `AuthenticationTest` updated accordingly.
+- **Checks:** admin suite 72/72 and full suite **192 passed / 963 assertions** (`DB_CONNECTION=mysql DB_DATABASE=grambazar_test DB_USERNAME=root DB_PASSWORD= vendor/bin/pest`); `phpstan analyse` 0 errors; `pint --dirty` clean; `npm run check` + `npm run types:check` clean; `npm run build` succeeds. Fixed two test-era bugs found while turning the suite green: `FarmerController` prop key was `'farmer'` but the page/tests expect `'farmers'`; ReportTest used `->where('rows.1', null)` which `Inertia\Testing` cannot evaluate (swapped to `->count('rows', 1)`).
+- **Demo accounts (DatabaseSeeder):** `super-admin@grambazar.test`, `admin@grambazar.test`, `farmer@grambazar.test` (approved), `pending-farmer@grambazar.test`, `customer@grambazar.test`. Super admin has all permissions implicitly; admin holds whatever the seed grants (`PermissionSeeder` + seeded role grants).
 
 ## Phase 08 — Testing & Security
 

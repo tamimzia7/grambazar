@@ -27,11 +27,21 @@ export function toneFor(value: string): keyof typeof toneMap {
         return 'emerald';
     }
 
-    if (v.includes('reject') || v.includes('pending') || v.includes('unpaid') || v === 'suspended') {
+    if (
+        v.includes('reject') ||
+        v.includes('pending') ||
+        v.includes('unpaid') ||
+        v === 'suspended'
+    ) {
         return 'amber';
     }
 
-    if (v.includes('failed') || v.includes('cancelled') || v === 'canceled' || v.includes('refunded')) {
+    if (
+        v.includes('failed') ||
+        v.includes('cancelled') ||
+        v === 'canceled' ||
+        v.includes('refunded')
+    ) {
         return 'rose';
     }
 

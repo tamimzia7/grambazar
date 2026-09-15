@@ -20,7 +20,9 @@ export default function AdminAdminsPermissions() {
     };
 
     const submit = () => {
-        form.put(adminRoutes.admins.updatePermissions.url({ admin_user: admin.id }));
+        form.put(
+            adminRoutes.admins.updatePermissions.url({ admin_user: admin.id }),
+        );
     };
 
     return (
@@ -50,7 +52,11 @@ export default function AdminAdminsPermissions() {
             >
                 <div className="mb-4 flex items-center justify-between rounded-2xl border border-stone-200 bg-white px-5 py-3">
                     <p className="text-sm font-semibold text-stone-600">
-                        নির্বাচিত: <span className="font-extrabold text-emerald-800">{form.data.permissions.length}</span>টি অনুমতি
+                        নির্বাচিত:{' '}
+                        <span className="font-extrabold text-emerald-800">
+                            {form.data.permissions.length}
+                        </span>
+                        টি অনুমতি
                     </p>
                     <button
                         type="submit"
@@ -63,9 +69,12 @@ export default function AdminAdminsPermissions() {
                 </div>
 
                 {groups.map((group) => (
-                    <section key={group.group} className="mb-4 rounded-2xl border border-stone-200 bg-white">
+                    <section
+                        key={group.group}
+                        className="mb-4 rounded-2xl border border-stone-200 bg-white"
+                    >
                         <header className="border-b border-stone-100 px-5 py-3">
-                            <h2 className="text-sm font-extrabold uppercase tracking-wide text-emerald-950">
+                            <h2 className="text-sm font-extrabold tracking-wide text-emerald-950 uppercase">
                                 {group.group}
                             </h2>
                         </header>
@@ -75,11 +84,17 @@ export default function AdminAdminsPermissions() {
                                     <label className="flex cursor-pointer items-center gap-3 px-5 py-3 hover:bg-emerald-50/40">
                                         <input
                                             type="checkbox"
-                                            checked={form.data.permissions.includes(permission.name)}
-                                            onChange={() => toggle(permission.name)}
+                                            checked={form.data.permissions.includes(
+                                                permission.name,
+                                            )}
+                                            onChange={() =>
+                                                toggle(permission.name)
+                                            }
                                             className="size-4 accent-emerald-600"
                                         />
-                                        <span className="text-sm font-semibold text-stone-700">{permission.label}</span>
+                                        <span className="text-sm font-semibold text-stone-700">
+                                            {permission.label}
+                                        </span>
                                         <code className="ml-auto rounded bg-stone-100 px-1.5 py-0.5 text-[10px] font-bold text-stone-500">
                                             {permission.name}
                                         </code>

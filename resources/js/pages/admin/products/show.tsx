@@ -16,7 +16,8 @@ export default function AdminProductShow() {
 
     const edit = useForm({
         price: String(product.price),
-        sale_price: product.sale_price === null ? '' : String(product.sale_price),
+        sale_price:
+            product.sale_price === null ? '' : String(product.sale_price),
         unit: product.unit,
         stock_quantity: String(product.stock_quantity),
         min_order_quantity: String(product.min_order_quantity),
@@ -30,7 +31,11 @@ export default function AdminProductShow() {
 
     const updateStock = () => {
         stock.patch(adminRoutes.products.stock.url({ product: product.id }), {
-            onSuccess: () => edit.setData('stock_quantity', String(stock.data.stock_quantity)),
+            onSuccess: () =>
+                edit.setData(
+                    'stock_quantity',
+                    String(stock.data.stock_quantity),
+                ),
         });
     };
 
@@ -68,10 +73,14 @@ export default function AdminProductShow() {
             <div className="grid gap-4 lg:grid-cols-2">
                 <div className="rounded-2xl border border-stone-200 bg-white p-5">
                     <div className="mb-3 flex items-center justify-between gap-2">
-                        <h2 className="text-base font-extrabold text-emerald-950">পণ্য ও মূল্য</h2>
+                        <h2 className="text-base font-extrabold text-emerald-950">
+                            পণ্য ও মূল্য
+                        </h2>
                         {can.moderate ? (
                             <Link
-                                href={adminRoutes.products.toggleActive.url({ product: product.id })}
+                                href={adminRoutes.products.toggleActive.url({
+                                    product: product.id,
+                                })}
                                 method="post"
                                 as="button"
                                 className="rounded-full border border-stone-200 px-3 py-1.5 text-xs font-bold text-stone-600 hover:bg-stone-50"
@@ -81,13 +90,19 @@ export default function AdminProductShow() {
                         ) : null}
                     </div>
                     <StatusBadge value={product.is_active ? 'দৃশ্যমান' : 'লুকানো'} />
-                    <p className="mb-4 mt-1 text-sm text-stone-500">{product.short_description ?? 'কোনো বিবরণ নেই'}</p>
+                    <p className="mt-1 mb-4 text-sm text-stone-500">
+                        {product.short_description ?? 'কোনো বিবরণ নেই'}
+                    </p>
 
                     {can.edit ? (
                         <form
                             onSubmit={(event) => {
                                 event.preventDefault();
-                                edit.put(adminRoutes.products.update.url({ product: product.id }));
+                                edit.put(
+                                    adminRoutes.products.update.url({
+                                        product: product.id,
+                                    }),
+                                );
                             }}
                             className="grid gap-3 sm:grid-cols-2"
                         >
@@ -97,7 +112,12 @@ export default function AdminProductShow() {
                                     step="0.01"
                                     min="0"
                                     value={String(edit.data.price)}
-                                    onChange={(event) => edit.setData('price', event.target.value)}
+                                    onChange={(event) =>
+                                        edit.setData(
+                                            'price',
+                                            event.target.value,
+                                        )
+                                    }
                                     className={`${inputClass} w-full`}
                                 />
                             </Field>
@@ -107,7 +127,12 @@ export default function AdminProductShow() {
                                     step="0.01"
                                     min="0"
                                     value={String(edit.data.sale_price)}
-                                    onChange={(event) => edit.setData('sale_price', event.target.value)}
+                                    onChange={(event) =>
+                                        edit.setData(
+                                            'sale_price',
+                                            event.target.value,
+                                        )
+                                    }
                                     placeholder="ঐচ্ছিক"
                                     className={`${inputClass} w-full`}
                                 />
@@ -115,11 +140,16 @@ export default function AdminProductShow() {
                             <Field label="একক / ইউনিট">
                                 <select
                                     value={String(edit.data.unit)}
-                                    onChange={(event) => edit.setData('unit', event.target.value)}
+                                    onChange={(event) =>
+                                        edit.setData('unit', event.target.value)
+                                    }
                                     className={`${inputClass} w-full`}
                                 >
                                     {units.map((unit) => (
-                                        <option key={unit.value} value={unit.value}>
+                                        <option
+                                            key={unit.value}
+                                            value={unit.value}
+                                        >
                                             {unit.label}
                                         </option>
                                     ))}
@@ -130,14 +160,37 @@ export default function AdminProductShow() {
                                     type="number"
                                     min="1"
                                     value={String(edit.data.min_order_quantity)}
-                                    onChange={(event) => edit.setData('min_order_quantity', event.target.value)}
+                                    onChange={(event) =>
+                                        edit.setData(
+                                            'min_order_quantity',
+                                            event.target.value,
+                                        )
+                                    }
                                     className={`${inputClass} w-full`}
                                 />
                             </Field>
                             <div className="flex flex-wrap gap-4 sm:col-span-2">
-                                <Checkbox label="ফিচার্ড" value={edit.data.is_featured} onChange={(v) => edit.setData('is_featured', v)} />
-                                <Checkbox label="জনপ্রিয়" value={edit.data.is_popular} onChange={(v) => edit.setData('is_popular', v)} />
-                                <Checkbox label="মৌসুমি" value={edit.data.is_seasonal} onChange={(v) => edit.setData('is_seasonal', v)} />
+                                <Checkbox
+                                    label="ফিচার্ড"
+                                    value={edit.data.is_featured}
+                                    onChange={(v) =>
+                                        edit.setData('is_featured', v)
+                                    }
+                                />
+                                <Checkbox
+                                    label="জনপ্রিয়"
+                                    value={edit.data.is_popular}
+                                    onChange={(v) =>
+                                        edit.setData('is_popular', v)
+                                    }
+                                />
+                                <Checkbox
+                                    label="মৌসুমি"
+                                    value={edit.data.is_seasonal}
+                                    onChange={(v) =>
+                                        edit.setData('is_seasonal', v)
+                                    }
+                                />
                             </div>
                             <button
                                 type="submit"
@@ -150,12 +203,32 @@ export default function AdminProductShow() {
                         </form>
                     ) : (
                         <dl className="divide-y divide-stone-100">
-                            <InfoRow label="মূল্য" value={formatTaka(product.price)} />
-                            {product.sale_price !== null ? <InfoRow label="সদস্য মূল্য" value={formatTaka(product.sale_price)} /> : null}
-                            <InfoRow label="সর্বনিম্ন অর্ডার" value={`${product.min_order_quantity} ${product.unit_label}`} />
-                            <InfoRow label="ফিচার্ড" value={product.is_featured ? 'হ্যাঁ' : 'না'} />
-                            <InfoRow label="জনপ্রিয়" value={product.is_popular ? 'হ্যাঁ' : 'না'} />
-                            <InfoRow label="মৌসুমি" value={product.is_seasonal ? 'হ্যাঁ' : 'না'} />
+                            <InfoRow
+                                label="মূল্য"
+                                value={formatTaka(product.price)}
+                            />
+                            {product.sale_price !== null ? (
+                                <InfoRow
+                                    label="সদস্য মূল্য"
+                                    value={formatTaka(product.sale_price)}
+                                />
+                            ) : null}
+                            <InfoRow
+                                label="সর্বনিম্ন অর্ডার"
+                                value={`${product.min_order_quantity} ${product.unit_label}`}
+                            />
+                            <InfoRow
+                                label="ফিচার্ড"
+                                value={product.is_featured ? 'হ্যাঁ' : 'না'}
+                            />
+                            <InfoRow
+                                label="জনপ্রিয়"
+                                value={product.is_popular ? 'হ্যাঁ' : 'না'}
+                            />
+                            <InfoRow
+                                label="মৌসুমি"
+                                value={product.is_seasonal ? 'হ্যাঁ' : 'না'}
+                            />
                         </dl>
                     )}
                 </div>
@@ -163,7 +236,10 @@ export default function AdminProductShow() {
                 {can.stock ? (
                     <div className="rounded-2xl border border-stone-200 bg-white p-5">
                         <h2 className="mb-3 flex items-center gap-2 text-base font-extrabold text-emerald-950">
-                            <Boxes className="size-5 text-emerald-600" aria-hidden="true" />
+                            <Boxes
+                                className="size-5 text-emerald-600"
+                                aria-hidden="true"
+                            />
                             স্টক হালনাগাদ
                         </h2>
                         <form
@@ -177,8 +253,15 @@ export default function AdminProductShow() {
                                     <input
                                         type="number"
                                         min="0"
-                                        value={String(stock.data.stock_quantity)}
-                                        onChange={(event) => stock.setData('stock_quantity', event.target.value)}
+                                        value={String(
+                                            stock.data.stock_quantity,
+                                        )}
+                                        onChange={(event) =>
+                                            stock.setData(
+                                                'stock_quantity',
+                                                event.target.value,
+                                            )
+                                        }
                                         className={`${inputClass} w-full`}
                                     />
                                     <button
@@ -191,15 +274,22 @@ export default function AdminProductShow() {
                                 </div>
                             </Field>
                             {stock.errors.stock_quantity ? (
-                                <p className="mt-1 text-xs font-semibold text-rose-600">{stock.errors.stock_quantity}</p>
+                                <p className="mt-1 text-xs font-semibold text-rose-600">
+                                    {stock.errors.stock_quantity}
+                                </p>
                             ) : null}
                         </form>
                         {product.farmer ? (
                             <div className="mt-4 border-t border-stone-100 pt-4 text-sm">
-                                <p className="font-semibold text-stone-500">কৃষক</p>
-                                <p className="font-bold text-emerald-950">{product.farmer.display_name}</p>
+                                <p className="font-semibold text-stone-500">
+                                    কৃষক
+                                </p>
+                                <p className="font-bold text-emerald-950">
+                                    {product.farmer.display_name}
+                                </p>
                                 <p className="text-xs text-stone-500">
-                                    {product.farmer.status} · +{product.farmer.owner_phone ?? 'ফোন নেই'}
+                                    {product.farmer.status} · +
+                                    {product.farmer.owner_phone ?? 'ফোন নেই'}
                                 </p>
                             </div>
                         ) : null}
@@ -210,16 +300,32 @@ export default function AdminProductShow() {
     );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+    label,
+    children,
+}: {
+    label: string;
+    children: React.ReactNode;
+}) {
     return (
         <label>
-            <span className="mb-1 block text-xs font-semibold text-stone-500">{label}</span>
+            <span className="mb-1 block text-xs font-semibold text-stone-500">
+                {label}
+            </span>
             {children}
         </label>
     );
 }
 
-function Checkbox({ label, value, onChange }: { label: string; value: boolean; onChange: (value: boolean) => void }) {
+function Checkbox({
+    label,
+    value,
+    onChange,
+}: {
+    label: string;
+    value: boolean;
+    onChange: (value: boolean) => void;
+}) {
     return (
         <label className="flex items-center gap-2">
             <input
@@ -237,7 +343,9 @@ function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
     return (
         <div className="flex items-center justify-between gap-4 py-2.5">
             <dt className="text-sm font-semibold text-stone-500">{label}</dt>
-            <dd className="text-right text-sm font-bold text-emerald-950">{value}</dd>
+            <dd className="text-right text-sm font-bold text-emerald-950">
+                {value}
+            </dd>
         </div>
     );
 }

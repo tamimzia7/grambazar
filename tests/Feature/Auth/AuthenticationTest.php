@@ -52,7 +52,7 @@ test('non customers are redirected to the dashboard after login', function () {
         'password' => 'password',
     ]);
 
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(route('admin.dashboard', absolute: false));
     $this->assertAuthenticatedAs($user);
 });
 

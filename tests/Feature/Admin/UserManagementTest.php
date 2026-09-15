@@ -2,6 +2,7 @@
 
 use App\Enums\UserRole;
 use App\Models\Farmer;
+use App\Models\Order;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -11,9 +12,10 @@ beforeEach(function (): void {
 });
 
 it('renders the users index for an administrator', function () {
+    $admin = User::factory()->asAdmin()->create();
     $user = User::factory()->asCustomer()->create(['name' => 'রাশেদ মিয়া']);
 
-    $this->actingAs(User::factory()->asAdmin()->create())
+    $this->actingAs($admin)
         ->get(route('admin.users.index'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
@@ -78,21 +80,12 @@ it('keeps the role untouched when the account status is toggled', function () {
 });
 
 it('records a user report with the order count', function () {
-    $user = User::factory()->asCustomer()->create();
-    $user->orders()->create([
-        'order_number' => 'GB-REPORT-1',
-        'delivery_address' => 'বাড়ি ১',
-        'delivery_district' => 'মানিকগঞ্জ',
-        'delivery_charge' => 60,
-        'subtotal' => 100,
-        'total' => 160,
-        'payment_method' => 'cod',
-        'payment_status' => 'paid',
-        'order_status' => 'delivered',
-    ]);
+    $this->actingAs(User::factory()->asAdmin()->create());
 
-    $this->actingAs(User::factory()->asAdmin()->create())
-        ->get(route('admin.users.report'))
+    $user = User::factory()->asCustomer()->create();
+    Order::factory()->for($user)->create(['order_number' => 'GB-REPORT-1']);
+
+    $this->get(route('admin.users.report'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/reports/users')

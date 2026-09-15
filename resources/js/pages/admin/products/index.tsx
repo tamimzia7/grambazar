@@ -14,7 +14,9 @@ const inputClass =
 export default function AdminProductsIndex() {
     const props = usePage().props as unknown as AdminProductsIndexPageProps;
     const { products, filters, categories } = props;
-    const { data, setData, get } = useForm(filters as Record<string, string | number | boolean | null>);
+    const { data, setData, get } = useForm(
+        filters as Record<string, string | number | boolean | null>,
+    );
 
     const apply = () => get(window.location.pathname, { preserveState: true });
 
@@ -33,23 +35,34 @@ export default function AdminProductsIndex() {
                     className="flex flex-wrap items-end gap-3 border-b border-stone-100 p-4"
                 >
                     <label className="block grow basis-64">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">খুঁজুন</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            খুঁজুন
+                        </span>
                         <span className="relative block">
-                            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-stone-400" aria-hidden="true" />
+                            <Search
+                                className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-stone-400"
+                                aria-hidden="true"
+                            />
                             <input
                                 type="search"
                                 value={String(data.search ?? '')}
-                                onChange={(event) => setData('search', event.target.value)}
+                                onChange={(event) =>
+                                    setData('search', event.target.value)
+                                }
                                 placeholder="পণ্যের নাম"
                                 className={`${inputClass} w-full pl-8`}
                             />
                         </span>
                     </label>
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">ক্যাটাগরি</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            ক্যাটাগরি
+                        </span>
                         <select
                             value={String(data.category_id ?? '')}
-                            onChange={(event) => setData('category_id', event.target.value)}
+                            onChange={(event) =>
+                                setData('category_id', event.target.value)
+                            }
                             className={inputClass}
                         >
                             <option value="">সব ক্যাটাগরি</option>
@@ -61,10 +74,14 @@ export default function AdminProductsIndex() {
                         </select>
                     </label>
                     <label className="block">
-                        <span className="mb-1 block text-xs font-semibold text-stone-500">স্ট্যাটাস</span>
+                        <span className="mb-1 block text-xs font-semibold text-stone-500">
+                            স্ট্যাটাস
+                        </span>
                         <select
                             value={String(data.status ?? '')}
-                            onChange={(event) => setData('status', event.target.value)}
+                            onChange={(event) =>
+                                setData('status', event.target.value)
+                            }
                             className={inputClass}
                         >
                             <option value="">সব স্ট্যাটাস</option>
@@ -83,7 +100,7 @@ export default function AdminProductsIndex() {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm">
                         <thead>
-                            <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-500">
+                            <tr className="border-b border-stone-100 text-xs tracking-wide text-stone-500 uppercase">
                                 <th className="px-4 py-3">পণ্য</th>
                                 <th className="px-4 py-3">ক্যাটাগরি</th>
                                 <th className="px-4 py-3">কৃষক</th>
@@ -96,7 +113,10 @@ export default function AdminProductsIndex() {
                         <tbody className="divide-y divide-stone-100">
                             {products.data.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="px-4 py-12 text-center text-stone-400">
+                                    <td
+                                        colSpan={7}
+                                        className="px-4 py-12 text-center text-stone-400"
+                                    >
                                         কোনো পণ্য পাওয়া যায়নি।
                                     </td>
                                 </tr>
@@ -106,26 +126,50 @@ export default function AdminProductsIndex() {
                                         <td className="px-4 py-3">
                                             <div className="flex items-center gap-3">
                                                 <img
-                                                    src={product.image ?? '/images/home/product-fallback.svg'}
+                                                    src={
+                                                        product.image ??
+                                                        '/images/home/product-fallback.svg'
+                                                    }
                                                     alt=""
                                                     className="size-10 rounded-lg object-cover"
                                                 />
-                                                <p className="font-bold text-emerald-950">{product.name}</p>
+                                                <p className="font-bold text-emerald-950">
+                                                    {product.name}
+                                                </p>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3 text-stone-600">{product.category ?? '—'}</td>
-                                        <td className="px-4 py-3 text-stone-600">{product.farmer ?? '—'}</td>
-                                        <td className="px-4 py-3 font-bold text-emerald-800">{formatTaka(product.price)}</td>
-                                        <td className="px-4 py-3 text-stone-600">{product.stock_quantity}</td>
+                                        <td className="px-4 py-3 text-stone-600">
+                                            {product.category ?? '—'}
+                                        </td>
+                                        <td className="px-4 py-3 text-stone-600">
+                                            {product.farmer ?? '—'}
+                                        </td>
+                                        <td className="px-4 py-3 font-bold text-emerald-800">
+                                            {formatTaka(product.price)}
+                                        </td>
+                                        <td className="px-4 py-3 text-stone-600">
+                                            {product.stock_quantity}
+                                        </td>
                                         <td className="px-4 py-3">
-                                            <StatusBadge value={product.is_active ? 'দৃশ্যমান' : 'লুকানো'} />
+                                            <StatusBadge
+                                                value={
+                                                    product.is_active
+                                                        ? 'দৃশ্যমান'
+                                                        : 'লুকানো'
+                                                }
+                                            />
                                         </td>
                                         <td className="px-4 py-3 text-right">
                                             <Link
-                                                href={adminRoutes.products.show.url({ product: product.id })}
+                                                href={adminRoutes.products.show.url(
+                                                    { product: product.id },
+                                                )}
                                                 className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-800 transition-colors hover:bg-emerald-100"
                                             >
-                                                <Eye className="size-3.5" aria-hidden="true" />
+                                                <Eye
+                                                    className="size-3.5"
+                                                    aria-hidden="true"
+                                                />
                                                 বিস্তারিত
                                             </Link>
                                         </td>

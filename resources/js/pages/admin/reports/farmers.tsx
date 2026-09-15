@@ -22,10 +22,14 @@ export default function AdminReportsFarmers() {
         <>
             <Head title="কৃষক রিপোর্ট" />
 
-            <ReportFrame meta={meta} filters={filters} baseUrl={adminRoutes.reports.farmers.url()}>
+            <ReportFrame
+                meta={meta}
+                filters={filters}
+                baseUrl={adminRoutes.reports.farmers.url()}
+            >
                 <table className="w-full text-left text-xs sm:text-sm print:text-xs">
                     <thead>
-                        <tr className="border-b border-stone-100 text-xs uppercase tracking-wide text-stone-500">
+                        <tr className="border-b border-stone-100 text-xs tracking-wide text-stone-500 uppercase">
                             <th className="px-5 py-3">কৃষক</th>
                             <th className="px-5 py-3">অ্যাকাউন্ট</th>
                             <th className="px-5 py-3">জেলা</th>
@@ -38,20 +42,37 @@ export default function AdminReportsFarmers() {
                     <tbody className="divide-y divide-stone-100">
                         {rows.length === 0 ? (
                             <tr>
-                                <td colSpan={8} className="px-5 py-10 text-center text-stone-400">
+                                <td
+                                    colSpan={8}
+                                    className="px-5 py-10 text-center text-stone-400"
+                                >
                                     কোনো রেকর্ড নেই।
                                 </td>
                             </tr>
                         ) : (
                             rows.map((row, index) => (
                                 <tr key={`${row.display_name}-${index}`}>
-                                    <td className="px-5 py-2.5 font-semibold text-emerald-950">{row.display_name}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.account ?? '—'}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.district}</td>
-                                    <td className="px-5 py-2.5 font-bold text-emerald-800">{row.approval_status}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.account_active}</td>
-                                    <td className="px-5 py-2.5 text-right font-bold text-emerald-950">{row.products_count}</td>
-                                    <td className="px-5 py-2.5 text-stone-600">{row.created_at}</td>
+                                    <td className="px-5 py-2.5 font-semibold text-emerald-950">
+                                        {row.display_name}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.account ?? '—'}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.district}
+                                    </td>
+                                    <td className="px-5 py-2.5 font-bold text-emerald-800">
+                                        {row.approval_status}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.account_active}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-right font-bold text-emerald-950">
+                                        {row.products_count}
+                                    </td>
+                                    <td className="px-5 py-2.5 text-stone-600">
+                                        {row.created_at}
+                                    </td>
                                 </tr>
                             ))
                         )}
