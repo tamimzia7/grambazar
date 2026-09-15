@@ -162,4 +162,36 @@ describe('checkout security', function () {
 
         $this->assertDatabaseCount('orders', 0);
     });
+
+    it('rejects an expired coupon without creating an order', function () {
+        $coupon = Coupon::factory()->percentage(10)->expired()->create();
+        $product = Product::factory()->create(['price' => 100, 'stock_quantity' => 10]);
+
+        $this->post(route('cart.add'), ['product_id' => $product->id, 'quantity' => 2]);
+        $this->post(route('checkout.store'), [
+            'customer_name' => 'তামিম জিয়া',
+            'customer_phone' => '01712345678',
+            'delivery_address' => 'বাড়ি ১',
+            'delivery_district' => 'মানিকগঞ্জ',
+            'coupon_code' => $coupon->code,
+        ])->assertSessionHasErrors('coupon');
+
+        $this->assertDatabaseCount('orders', 0);
+    });
+
+    it('rejects an inactive coupon without creating an order', function () {
+        $coupon = Coupon::factory()->percentage(10)->inactive()->create();
+        $product = Product::factory()->create(['price' => 100, 'stock_quantity' => 10]);
+
+        $this->post(route('cart.add'), ['product_id' => $product->id, 'quantity' => 2]);
+        $this->post(route('checkout.store'), [
+            'customer_name' => 'তামিম জিয়া',
+            'customer_phone' => '01712345678',
+            'delivery_address' => 'বাড়ি ১',
+            'delivery_district' => 'মানিকগঞ্জ',
+            'coupon_code' => $coupon->code,
+        ])->assertSessionHasErrors('coupon');
+
+        $this->assertDatabaseCount('orders', 0);
+    });
 });
