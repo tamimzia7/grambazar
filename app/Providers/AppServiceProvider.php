@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Inertia\ExceptionResponse;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureAuthorization();
         $this->configureDefaults();
+        $this->configureErrorPages();
     }
 
     /**
@@ -58,5 +61,21 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+    }
+
+    /**
+     * Render friendly Inertia error pages in production.
+     *
+     * @see https://inertiajs.com/docs/v3/advanced/error-handling#production
+     */
+    protected function configureErrorPages(): void
+    {
+        Inertia::handleExceptionsUsing(function (ExceptionResponse $response): ?ExceptionResponse {
+            if (in_array($response->statusCode(), [403, 404, 419, 429, 500, 503], true)) {
+                return $response->render('ErrorPage', ['status' => $response->statusCode()]);
+            }
+
+            return null;
+        });
     }
 }

@@ -2,8 +2,8 @@
 
 ## Project Status
 
-Phase: 08 — Testing, Security, Performance & Final QA
-Status: Completed (audit scope)
+Phase: 09 — Deployment & Production Launch
+Status: Ready for deployment (documented, verified locally — no server/domain access yet; NOT deployed)
 
 ## Phase 01 — Foundation
 
@@ -191,27 +191,43 @@ stack is MySQL (pdo_sqlite absent) — aligned test runs use MySQL test DB.
 
 ## FINAL QA STATUS
 
-| Item | Status | Notes |
-|---|---|---|
-| Automated tests | ✅ PASS | 198 tests / 981 assertions, full suite green |
-| TypeScript | ✅ PASS | `tsc --noEmit` clean |
-| Lint/format | ✅ PASS | `vp check` (133 files) + `vendor/bin/pint --dirty` clean |
-| Frontend build | ✅ PASS | `vm build` succeeds (client bundle) |
-| Migrations | ✅ PASS | all migrated; no `migrate:fresh`/destructive ops used |
-| Security | ✅ PASS | IDOR/PII on public orders page fixed + covered by tests |
-| Git | ✅ CLEAN | no commits made; session changes uncommitted on `main` |
+| Item            | Status   | Notes                                                    |
+| --------------- | -------- | -------------------------------------------------------- |
+| Automated tests | ✅ PASS  | 198 tests / 981 assertions, full suite green             |
+| TypeScript      | ✅ PASS  | `tsc --noEmit` clean                                     |
+| Lint/format     | ✅ PASS  | `vp check` (133 files) + `vendor/bin/pint --dirty` clean |
+| Frontend build  | ✅ PASS  | `vm build` succeeds (client bundle)                      |
+| Migrations      | ✅ PASS  | all migrated; no `migrate:fresh`/destructive ops used    |
+| Security        | ✅ PASS  | IDOR/PII on public orders page fixed + covered by tests  |
+| Git             | ✅ CLEAN | no commits made; session changes uncommitted on `main`   |
 
 Remaining out of scope: deployment (Phase 09) and Phase 06 farmer feature items — not part of
 this audit session.
 
 ## Phase 09 — Deployment
 
-- [ ] Production environment
-- [ ] Database
-- [ ] Storage
-- [ ] Build
-- [ ] Environment variables
-- [ ] Final testing
+- [x] Production environment config verified (`APP_ENV=production`, `APP_DEBUG=false`, HTTPS, `SESSION_SECURE_COOKIE=true`)
+- [x] `.env` safety verified (untracked, git-ignored) — `.env.example` contains placeholders only
+- [x] Database schema/migrations verified (20 migrations, MySQL); no destructive ops at runtime
+- [x] Seeders classified — prod-safe seeders documented (`Category`, `Permission`, `SiteSetting`); demo `DatabaseSeeder` excluded
+- [x] Storage linked (`storage:link`) and permissions documented
+- [x] Production dependencies & asset build verified (`composer install --no-dev`, `npm ci --omit=dev`, `npm run build`)
+- [x] Laravel optimization verified (`route:cache`, `config:cache`, `view:cache`, `event:cache` on Laravel 13)
+- [x] Web server / HTTPS / domain documented in `DEPLOYMENT.md` (no server access — not applied)
+- [x] Mail (SMTP) configured & documented for Fortify password reset/verification/2FA email
+- [x] Queue/scheduler reviewed — no workers required (no queued jobs/notifications); documented
+- [x] Caching/logging strategy documented (DB store, logrotate, backup plan)
+- [x] Security headers added (`SetSecurityHeaders` middleware: nosniff, SAMEORIGIN, referrer-policy, XSS-protection)
+- [x] Branded error pages implemented for 403/404/419/429/500/503 (`ErrorPage` Inertia component)
+- [x] DB health check + smoke/security/feature tests pass (202 tests, 1018 assertions)
+- [x] Git verified clean of secrets (`.env` untracked, no credentials in tracked files) — no commits made
+- [x] `DEPLOYMENT.md` written (17 sections + server-side checklist)
+- [ ] ACTUAL deployment — **blocked**: no production server, domain, or credentials available
+- [ ] Post-deployment smoke test on live domain — blocked (requires deployment)
+
+> **Deployment state:** READY FOR DEPLOYMENT. All prep is verified locally and documented in
+> `DEPLOYMENT.md`. Actual provisioning (server, DNS, SSL, DB creds, SMTP) is out of reach
+> until access is provided. Do not commit/push until the deploy checklist is executed server-side.
 
 ## Development Rules
 

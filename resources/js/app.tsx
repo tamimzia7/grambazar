@@ -16,6 +16,7 @@ void createInertiaApp({
     layout: (name) => {
         switch (true) {
             case name === 'welcome':
+            case name === 'ErrorPage':
                 return null;
             case name.startsWith('shop/') ||
                 name === 'products/show' ||
